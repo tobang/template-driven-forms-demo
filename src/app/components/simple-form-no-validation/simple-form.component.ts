@@ -5,20 +5,11 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { AddressComponent } from './address/address.component';
-import { AddressModel } from '../models/address.model';
-import { FormDirective } from '../utils/form/form.directive';
-import { BehaviorSubject } from 'rxjs';
+import { AddressComponent } from '../address/address.component';
 
-export type FormModel = Partial<{
-  firstName: string;
-  lastName: string;
-  addresses: {
-    homeAddress: AddressModel;
-    workAddress: AddressModel;
-    includeWorkAddress: boolean;
-  };
-}>;
+import { FormDirective } from '../../utils/form/form.directive';
+import { BehaviorSubject } from 'rxjs';
+import { FormModel } from '../../models/form.model';
 
 @Component({
   selector: 'app-simple-contact-form',
@@ -43,7 +34,7 @@ export class SimpleContactFormComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   onSubmit() {
-    console.log(this.ngForm?.value);
+    console.log(this.formValue$.value);
   }
 
   showForm() {

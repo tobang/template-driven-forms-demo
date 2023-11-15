@@ -1,5 +1,5 @@
 <div class="form-container" *ngIf="this.formValue$ | async as formValue">
-  <h2>Simple contact form</h2>
+  <h2>Simple contact form - no validation</h2>
   <form
     (formValueChange)="this.formValue$.next($event.value)"
     (ngSubmit)="onSubmit()"
