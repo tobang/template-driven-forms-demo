@@ -1,0 +1,73 @@
+<div class="form-container" *ngIf="this.formValue$ | async as formValue">
+  <h2>Simple contact form</h2>
+  <form
+    (formValueChange)="this.formValue$.next($event.value)"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex-column">
+      <label for="firstName">First name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="formValue.firstName"
+        name="firstName"
+        id="firstName"
+      />
+    </div>
+    <div class="flex-column">
+      <label for="lastName">Last name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="formValue.lastName"
+        name="lastName"
+        id="lastName"
+      />
+    </div>
+
+    <ng-container ngModelGroup="addresses">
+      <h4 class="home-label">Home address</h4>
+      <ng-container ngModelGroup="homeAddress">
+        <app-address [address]="formValue.addresses?.homeAddress"></app-address>
+      </ng-container>
+
+      <p-checkbox
+        [ngModel]="formValue.addresses?.includeWorkAddress"
+        [binary]="true"
+        name="includeWorkAddress"
+        inputId="workAddress"
+      ></p-checkbox>
+      <label class="include-wa" for="workAddress"
+        >Include work address {{ formValue.firstName }}</label
+      >
+      <ng-container *ngIf="formValue.addresses?.includeWorkAddress">
+        <h4 class="home-label">Work address</h4>
+        <ng-container ngModelGroup="workAddress">
+          <app-address
+            [address]="formValue.addresses?.workAddress"
+          ></app-address>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <button pButton label="Submit" type="submit"></button>
+    <button
+      pButton
+      label="Reset"
+      type="reset"
+      class="p-button-success"
+    ></button>
+  </form>
+  <div class="form-value">
+    <button
+      pButton
+      label="Show reactive form"
+      class="p-button-danger"
+      (click)="showForm()"
+    ></button>
+    <pre>
+    {{ formValue | json }}
+  </pre
+    >
+  </div>
+</div>
