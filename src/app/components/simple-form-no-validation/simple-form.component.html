@@ -1,7 +1,7 @@
 <div class="form-container" *ngIf="this.formValue$ | async as formValue">
   <h2>Simple contact form - no validation</h2>
   <form
-    (formValueChange)="this.formValue$.next($event.value)"
+    (formValueChange)="this.formValue$.next($event)"
     (ngSubmit)="onSubmit()"
   >
     <div class="flex-column">
@@ -38,7 +38,7 @@
         inputId="workAddress"
       ></p-checkbox>
       <label class="include-wa" for="workAddress"
-        >Include work address {{ formValue.firstName }}</label
+        >Include work address</label
       >
       <ng-container *ngIf="formValue.addresses?.includeWorkAddress">
         <h4 class="home-label">Work address</h4>

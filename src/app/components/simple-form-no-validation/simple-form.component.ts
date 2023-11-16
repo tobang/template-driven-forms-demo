@@ -5,11 +5,11 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { AddressComponent } from '../address/address.component';
+import { AddressComponent } from './address/address.component';
 
-import { FormDirective } from '../../utils/form/form.directive';
+import { FormDirective } from '../../utils/form/no-validation/form-no-validation.directive';
 import { BehaviorSubject } from 'rxjs';
-import { FormModel } from '../../models/form.model';
+import { ContactModel } from '../../models/contact.model';
 
 @Component({
   selector: 'app-simple-contact-form',
@@ -26,12 +26,10 @@ import { FormModel } from '../../models/form.model';
   templateUrl: './simple-form.component.html',
   styleUrls: ['./simple-form.component.scss'],
 })
-export class SimpleContactFormComponent implements AfterViewInit {
+export class SimpleContactFormComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  protected formValue$: BehaviorSubject<FormModel> =
-    new BehaviorSubject<FormModel>({});
-
-  ngAfterViewInit(): void {}
+  protected formValue$: BehaviorSubject<ContactModel> =
+    new BehaviorSubject<ContactModel>({});
 
   onSubmit() {
     console.log(this.formValue$.value);

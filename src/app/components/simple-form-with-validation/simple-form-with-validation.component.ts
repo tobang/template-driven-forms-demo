@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -7,9 +7,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { FormModel } from 'src/app/models/form.model';
-import { AddressComponent } from '../address/address.component';
-import { FormDirective } from 'src/app/utils/form/form.directive';
+import { ContactModel } from '../../models/contact.model';
+
+import { FormDirective } from '../../utils/form/form.directive';
+import { simpleZodSchema } from '../validations/simple-form-zod.validation';
+import { templateDrivenForms } from '../../utils/form/template-driven-forms';
+import { AddressWithValidationComponent } from './address/address-with-validation.component';
 
 @Component({
   selector: 'app-simple-form-with-validation',
@@ -20,21 +23,26 @@ import { FormDirective } from 'src/app/utils/form/form.directive';
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressComponent,
+    AddressWithValidationComponent,
     FormDirective,
+    templateDrivenForms,
   ],
   templateUrl: './simple-form-with-validation.component.html',
   styleUrls: ['./simple-form-with-validation.component.scss'],
 })
-export class SimpleFormWithValidationComponent implements AfterViewInit {
+export class SimpleFormWithValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  protected formValue$: BehaviorSubject<FormModel> =
-    new BehaviorSubject<FormModel>({});
+  public form$: BehaviorSubject<ContactModel> =
+    new BehaviorSubject<ContactModel>({});
 
-  ngAfterViewInit(): void {}
+  protected contactSchema = simpleZodSchema;
+
+  setFormValue(value: ContactModel) {
+    this.form$.next(value);
+  }
 
   onSubmit() {
-    console.log(this.formValue$.value);
+    console.log(this.form$.value);
   }
 
   showForm() {
