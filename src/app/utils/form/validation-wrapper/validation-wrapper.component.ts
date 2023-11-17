@@ -1,4 +1,10 @@
-import { Component, ContentChild, HostBinding, inject } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  HostBinding,
+  Input,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgModel, NgModelGroup } from '@angular/forms';
 
@@ -10,6 +16,7 @@ import { NgModel, NgModelGroup } from '@angular/forms';
   styleUrls: ['./validation-wrapper.component.scss'],
 })
 export class ValidationWrapperComponent {
+  @Input() showAllErrors = false;
   @ContentChild(NgModel) public ngModel?: NgModel;
   public readonly ngModelGroup: NgModelGroup | null = inject(NgModelGroup, {
     optional: true,

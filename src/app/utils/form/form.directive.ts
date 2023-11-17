@@ -17,4 +17,10 @@ export class FormDirective<T> {
   @Output() formValueChange: Observable<T> = this.ngForm.form.valueChanges.pipe(
     debounceTime(0)
   );
+
+  constructor() {
+    this.ngForm.ngSubmit.subscribe(() => {
+      this.ngForm.form.markAllAsTouched();
+    });
+  }
 }

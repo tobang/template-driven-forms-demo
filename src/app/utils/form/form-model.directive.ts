@@ -25,7 +25,6 @@ export class FormModelDirective implements Validator {
   public validate(control: AbstractControl): ValidationErrors | null {
     const { ngForm, schema } = this.formDirective;
     this.field = getFormControlField(ngForm.control, control);
-    console.log('Get field path', this.field);
 
     const validatorFn = createZodValidator(
       this.field,

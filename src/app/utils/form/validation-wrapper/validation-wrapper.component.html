@@ -2,11 +2,35 @@
   <ng-content></ng-content>
 </div>
 <div class="input-wrapper__errors">
-  <ul *ngIf="!ngModelGroup && ngModel?.control?.errors && (ngModel?.touched|| ngModel?.dirty)">
-    <li class="p-error" *ngFor="let error of ngModel?.control?.errors?.['errors']">{{error}}</li>
+  <!-- Errors for formControl -->
+  <ul *ngIf="ngModel?.control?.errors && (ngModel?.touched || ngModel?.dirty)">
+    <ng-container *ngIf="showAllErrors; else singleError">
+      <li
+        class="p-error"
+        *ngFor="let error of ngModel?.control?.errors?.['errors']"
+      >
+        {{ error }}
+      </li>
+    </ng-container>
+    <ng-template #singleError>
+      <li class="p-error">
+        {{ ngModel?.control?.errors?.['errors'][0] }}
+      </li>
+    </ng-template>
   </ul>
 
-  <ul *ngIf="ngModelGroup?.control?.errors && (ngModelGroup?.touched || ngModelGroup?.dirty)">
-    <li class="p-error" *ngFor="let error of ngModelGroup?.control?.errors?.['errors']">{{error}}</li>
+  <!-- Errors for formGroup -->
+  <ul
+    *ngIf="
+      ngModelGroup?.control?.errors &&
+      (ngModelGroup?.touched || ngModelGroup?.dirty)
+    "
+  >
+    <li
+      class="p-error"
+      *ngFor="let error of ngModelGroup?.control?.errors?.['errors']"
+    >
+      {{ error }}
+    </li>
   </ul>
 </div>

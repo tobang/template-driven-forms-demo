@@ -117,7 +117,7 @@ export function createZodValidator<T>(
     const modUpdated = set(mod as object, field, control.value); // Update the property with path
 
     const resultZod = schema.safeParse(modUpdated);
-    console.log('Zod result', resultZod);
+
     if (!resultZod.success) {
       const zodErrors = resultZod.error.errors.filter(
         (issue) => issue.path.join('.') === field

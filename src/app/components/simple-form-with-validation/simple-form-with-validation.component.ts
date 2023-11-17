@@ -11,7 +11,10 @@ import { ContactModel } from '../../models/contact.model';
 
 import { FormDirective } from '../../utils/form/form.directive';
 import { simpleZodSchema } from '../validations/simple-form-zod.validation';
-import { templateDrivenForms } from '../../utils/form/template-driven-forms';
+import {
+  templateDrivenForms,
+  templateDrivenFormsViewProviders,
+} from '../../utils/form/template-driven-forms';
 import { AddressWithValidationComponent } from './address/address-with-validation.component';
 
 @Component({
@@ -29,6 +32,7 @@ import { AddressWithValidationComponent } from './address/address-with-validatio
   ],
   templateUrl: './simple-form-with-validation.component.html',
   styleUrls: ['./simple-form-with-validation.component.scss'],
+  viewProviders: [templateDrivenFormsViewProviders],
 })
 export class SimpleFormWithValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
