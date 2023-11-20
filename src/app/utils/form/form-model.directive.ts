@@ -1,19 +1,23 @@
 import { Directive, inject, Input } from '@angular/core';
 import {
   AbstractControl,
-  NG_VALIDATORS,
+  NG_ASYNC_VALIDATORS,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
 import { FormDirective } from './form.directive';
-import { createZodValidator, getFormControlField } from './form.utils';
+import { createAsyncZodValidator, getFormControlField } from './form.utils';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[ngModel]',
   standalone: true,
   providers: [
-    { provide: NG_VALIDATORS, useExisting: FormModelDirective, multi: true },
+    {
+      provide: NG_ASYNC_VALIDATORS,
+      useExisting: FormModelDirective,
+      multi: true,
+    },
   ],
 })
 export class FormModelDirective implements Validator {
@@ -26,7 +30,7 @@ export class FormModelDirective implements Validator {
     const { ngForm, schema } = this.formDirective;
     this.field = getFormControlField(ngForm.control, control);
 
-    const validatorFn = createZodValidator(
+    const validatorFn = createAsyncZodValidator(
       this.field,
       this.formDirective.model,
       schema

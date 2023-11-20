@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/directive-selector */
 import { Directive, inject, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { debounceTime, Observable } from 'rxjs';
 
@@ -19,7 +20,7 @@ export class FormDirective<T> {
   );
 
   constructor() {
-    this.ngForm.ngSubmit.subscribe(() => {
+    this.ngForm.ngSubmit.pipe(takeUntilDestroyed()).subscribe(() => {
       this.ngForm.form.markAllAsTouched();
     });
   }

@@ -1,0 +1,88 @@
+<div class="form-container" *ngIf="form$ | async as form">
+  <h2>Simple contact form - with async validation</h2>
+  <form
+    [model]="form"
+    [schema]="contactSchema"
+    (formValueChange)="setFormValue($event)"
+    (ngSubmit)="onSubmit()"
+  >
+    <div validation-wrapper>
+      <label for="firstName">First name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.firstName"
+        name="firstName"
+        id="firstName"
+      />
+    </div>
+
+    <div validation-wrapper>
+      <label for="lastName">Last name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.lastName"
+        name="lastName"
+        id="lastName"
+      />
+    </div>
+
+    <div validation-wrapper>
+      <label for="nickName">Nick name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.nickName"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+        name="nickName"
+        id="nickName"
+      />
+    </div>
+
+    <ng-container ngModelGroup="addresses">
+      <h4 class="home-label">Home address</h4>
+      <ng-container ngModelGroup="homeAddress">
+        <app-address-with-validation
+          [address]="form.addresses?.homeAddress"
+        ></app-address-with-validation>
+      </ng-container>
+
+      <p-checkbox
+        [ngModel]="form.addresses?.includeWorkAddress"
+        [binary]="true"
+        name="includeWorkAddress"
+        inputId="workAddress"
+      ></p-checkbox>
+      <label class="include-wa" for="workAddress">Include work address</label>
+      <ng-container *ngIf="form.addresses?.includeWorkAddress">
+        <h4 class="home-label">Work address</h4>
+        <ng-container ngModelGroup="workAddress">
+          <app-address-with-validation
+            [address]="form.addresses?.workAddress"
+          ></app-address-with-validation>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <button pButton label="Submit" type="submit"></button>
+    <button
+      pButton
+      label="Reset"
+      type="reset"
+      class="p-button-success"
+    ></button>
+  </form>
+  <div class="form-value">
+    <button
+      pButton
+      label="Show reactive form"
+      class="p-button-danger"
+      (click)="showForm()"
+    ></button>
+    <pre>
+    {{ form | json }}
+  </pre
+    >
+  </div>
+</div>
