@@ -154,11 +154,18 @@ export function createAsyncZodValidator<T>(
   schema: z.ZodTypeAny
 ): AsyncValidatorFn {
   return (control: AbstractControl) => {
+    console.log('Model', field, model);
     const mod = structuredClone(model);
-    const modUpdated = set(mod as object, field, control.value); // Update the property with path
+    const modUpdated = set(mod as object, field, control.value);
+    console.log('Updated model', field, modUpdated);
+
+    // TODO: Only run schema on data difference
+    // Difference between model and modUpdated
+    // Maybe all fields in schema has to be optional?
 
     return new Observable((observer) => {
       schema.safeParseAsync(modUpdated).then((resultZod) => {
+        console.log('Result zod', resultZod);
         if (!resultZod.success) {
           const zodErrors = resultZod.error.errors.filter(
             (issue) => issue.path.join('.') === field
@@ -172,12 +179,14 @@ export function createAsyncZodValidator<T>(
               error: zodErrorsString[0],
               errors: zodErrorsString,
             });
-            observer.complete();
+            console.log('Observer error completing');
           }
         } else {
+          console.log('Observer success completing');
           observer.next(null);
-          observer.complete();
         }
+        console.log('Completing');
+        observer.complete();
       });
     });
   };
