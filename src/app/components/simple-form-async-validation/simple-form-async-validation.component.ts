@@ -18,7 +18,7 @@ import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../utils/form/template-driven-forms';
-import { AddressWithValidationComponent } from '../simple-form-with-validation/address/address-with-validation.component';
+import { AddressWithValidationComponent } from '../simple-form-zod-validation/address/address-with-validation.component';
 import { ContactService } from 'src/app/services/contact.service';
 
 @Component({

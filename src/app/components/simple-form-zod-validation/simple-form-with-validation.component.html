@@ -1,5 +1,5 @@
 <div class="form-container" *ngIf="form$ | async as form">
-  <h2>Simple contact form - with validation</h2>
+  <h2>Simple contact form - with zod validation</h2>
   <form
     [model]="form"
     [schema]="contactSchema"
