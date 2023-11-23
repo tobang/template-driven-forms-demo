@@ -16,7 +16,7 @@ export function createZodValidator<T>(
 ): ValidatorFn {
   return (control: AbstractControl) => {
     const mod = structuredClone(model);
-    const modUpdated = set(mod as object, field, control.value); // Update the property with path
+    const modUpdated = set(mod as object, field, control.value);
 
     const resultZod = schema.safeParse(modUpdated);
 

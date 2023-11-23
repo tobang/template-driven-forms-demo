@@ -35,10 +35,11 @@ export function createAsyncVestValidator<T>(
   suite: Suite<string, string, (model: T, field: string) => void>
 ): AsyncValidatorFn {
   return (control: AbstractControl) => {
+    console.log('Vest validation', control.value);
     const mod = structuredClone(model);
-    set(mod as object, field, control.value);
+    const modUpdated = set(mod as object, field, control.value) as T;
     return new Observable((observer) => {
-      suite(mod, field).done((result) => {
+      suite(modUpdated, field).done((result) => {
         const errors = result.getErrors()[field];
         observer.next(errors ? { error: errors[0], errors } : null);
         observer.complete();
