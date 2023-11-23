@@ -7,6 +7,7 @@ import {
 import { isEmpty, set } from 'radash';
 import { Observable } from 'rxjs';
 import { z } from 'zod';
+import { Suite, SuiteResult } from 'vest';
 
 function getControlPath(
   rootForm: FormGroup,
@@ -108,6 +109,50 @@ export function getFormGroupField(
 }
 
 /**
+ * Creates an Angular ValidatorFn that uses a Vest suite behind the scenes
+ * @param field
+ * @param model
+ * @param suite
+ */
+export function createVestValidator<T>(
+  field: string,
+  model: T,
+  suite: (model: T, field: string) => SuiteResult<string, string>
+): ValidatorFn {
+  return (control: AbstractControl) => {
+    const mod = structuredClone(model);
+    set(mod as object, field, control.value);
+    const result = suite(mod, field);
+    const errors = result.getErrors()[field];
+    return errors ? { error: errors[0], errors } : null;
+  };
+}
+
+/**
+ * Creates an Angular AsyncValidatorFn that uses a Vest suite behind the scenes
+ * @param field
+ * @param model
+ * @param suite
+ */
+export function createAsyncValidator<T>(
+  field: string,
+  model: T,
+  suite: Suite<string, string, (model: T, field: string) => void>
+): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    const mod = structuredClone(model);
+    set(mod as object, field, control.value);
+    return new Observable((observer) => {
+      suite(mod, field).done((result) => {
+        const errors = result.getErrors()[field];
+        observer.next(errors ? { error: errors[0], errors } : null);
+        observer.complete();
+      });
+    });
+  };
+}
+
+/**
  * Creates an Angular ValidatorFn that uses a Zod schema behind the scenes
  * @param field
  * @param model
@@ -143,7 +188,7 @@ export function createZodValidator<T>(
 }
 
 /**
- * Creates an Angular ValidatorFn that uses a Zod schema behind the scenes
+ * Creates an Angular AsyncValidatorFn that uses a Zod schema behind the scenes
  * @param field
  * @param model
  * @param schema

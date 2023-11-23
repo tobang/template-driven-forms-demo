@@ -6,7 +6,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { FormDirective } from './form.directive';
+import { FormZodDirective } from './zod/form-zod.directive';
 import { createAsyncZodValidator, getFormControlField } from './form.utils';
 import { Observable } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
   ],
 })
 export class FormModelDirective implements AsyncValidator {
-  private readonly formDirective = inject(FormDirective);
+  private readonly formDirective = inject(FormZodDirective);
   private field: string | undefined;
 
   @Input() public alwaysValidate = false;

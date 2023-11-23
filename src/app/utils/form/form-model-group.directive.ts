@@ -5,7 +5,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { FormDirective } from './form.directive';
+import { FormZodDirective } from './zod/form-zod.directive';
 import { createAsyncZodValidator, getFormGroupField } from './form.utils';
 
 @Directive({
@@ -21,7 +21,7 @@ import { createAsyncZodValidator, getFormGroupField } from './form.utils';
   ],
 })
 export class FormModelGroupDirective implements Validator {
-  private readonly formDirective = inject(FormDirective);
+  private readonly formDirective = inject(FormZodDirective);
 
   public validate(control: AbstractControl): ValidationErrors | null {
     const { ngForm, schema } = this.formDirective;

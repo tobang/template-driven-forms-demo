@@ -11,7 +11,7 @@ import { z } from 'zod';
   selector: 'form[model][schema]',
   standalone: true,
 })
-export class FormDirective<T> {
+export class FormZodDirective<T> {
   @Input() public model!: T;
   @Input() public schema!: z.ZodTypeAny;
   public readonly ngForm = inject(NgForm, { self: true });

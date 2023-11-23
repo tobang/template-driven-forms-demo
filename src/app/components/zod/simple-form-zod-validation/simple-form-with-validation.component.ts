@@ -9,7 +9,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { ContactModel } from '../../../models/contact.model';
 
-import { FormDirective } from '../../../utils/form/form.directive';
+import { FormZodDirective } from '../../../utils/form/zod/form-zod.directive';
 import { simpleZodSchema } from '../../../validations/zod/simple-form-zod.validation';
 import {
   templateDrivenForms,
@@ -27,7 +27,7 @@ import { AddressWithValidationComponent } from './address/address-with-validatio
     ButtonModule,
     CheckboxModule,
     AddressWithValidationComponent,
-    FormDirective,
+    FormZodDirective,
     templateDrivenForms,
   ],
   templateUrl: './simple-form-with-validation.component.html',
