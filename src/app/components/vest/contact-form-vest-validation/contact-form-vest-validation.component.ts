@@ -15,12 +15,11 @@ import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../utils/form/template-driven-forms';
-import { AddressWithValidationComponent } from '../simple-form-zod-validation/address/address-with-validation.component';
-import { ContactService } from '../../../services/contact.service';
-import { createAsyncZodSchema } from '../../../validations/zod';
+import { AddressVestValidationComponent } from './address/address-vest-validation.component';
+import { createContactValidationSuite } from '../../../validations/vest';
 
 @Component({
-  selector: 'app-simple-form-async-validation',
+  selector: 'app-contact-form-vest-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,21 +27,20 @@ import { createAsyncZodSchema } from '../../../validations/zod';
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressWithValidationComponent,
+    AddressVestValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './simple-form-async-validation.component.html',
-  styleUrls: ['./simple-form-async-validation.component.scss'],
+  templateUrl: './contact-form-vest-validation.component.html',
+  styleUrls: ['./contact-form-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class SimpleFormAsyncValidationComponent {
+export class ContactFormVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
   public form$: BehaviorSubject<ContactModel> =
     new BehaviorSubject<ContactModel>({});
-  private constactService = inject(ContactService);
 
-  protected contactSchema = createAsyncZodSchema(this.constactService);
+  protected contactSchema = createContactValidationSuite();
 
   setFormValue(value: ContactModel) {
     this.form$.next(value);

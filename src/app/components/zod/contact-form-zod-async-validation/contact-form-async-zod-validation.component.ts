@@ -10,15 +10,17 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ContactModel } from '../../../models/contact.model';
 
 import { FormDirective } from '../../../utils/form/form.directive';
-import { simpleZodSchema } from '../../../validations/zod/simple-form-zod.validation';
+
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../utils/form/template-driven-forms';
-import { AddressWithValidationComponent } from './address/address-with-validation.component';
+import { AddressWithValidationComponent } from '../contact-form-zod-validation/address/address-with-validation.component';
+import { ContactService } from '../../../services/contact.service';
+import { createAsyncZodSchema } from '../../../validations/zod';
 
 @Component({
-  selector: 'app-simple-form-with-validation',
+  selector: 'app-contact-form-async-zod-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,16 +32,17 @@ import { AddressWithValidationComponent } from './address/address-with-validatio
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './simple-form-with-validation.component.html',
-  styleUrls: ['./simple-form-with-validation.component.scss'],
+  templateUrl: './contact-form-async-zod-validation.component.html',
+  styleUrls: ['./contact-form-async-zod-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class SimpleFormWithValidationComponent {
+export class ContactFormAsyncZodValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
   public form$: BehaviorSubject<ContactModel> =
     new BehaviorSubject<ContactModel>({});
+  private constactService = inject(ContactService);
 
-  protected contactSchema = simpleZodSchema;
+  protected contactSchema = createAsyncZodSchema(this.constactService);
 
   setFormValue(value: ContactModel) {
     this.form$.next(value);

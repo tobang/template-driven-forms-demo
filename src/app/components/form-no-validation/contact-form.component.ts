@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ContactModel } from '../../models/contact.model';
 
 @Component({
-  selector: 'app-simple-contact-form',
+  selector: 'app-contact-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,10 +23,10 @@ import { ContactModel } from '../../models/contact.model';
     AddressComponent,
     FormDirective,
   ],
-  templateUrl: './simple-form.component.html',
-  styleUrls: ['./simple-form.component.scss'],
+  templateUrl: './contact-form.component.html',
+  styleUrls: ['./contact-form.component.scss'],
 })
-export class SimpleContactFormComponent {
+export class ContactFormComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
   protected formValue$: BehaviorSubject<ContactModel> =
     new BehaviorSubject<ContactModel>({});

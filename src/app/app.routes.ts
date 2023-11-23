@@ -1,28 +1,28 @@
 import { Route } from '@angular/router';
-import { SimpleContactFormComponent } from './components/simple-form-no-validation/simple-form.component';
-import { SimpleFormWithValidationComponent } from './components/zod/simple-form-zod-validation/simple-form-with-validation.component';
-import { SimpleFormAsyncValidationComponent } from './components/zod/simple-form-zod-async-validation/simple-form-async-validation.component';
-import { FormVestValidationComponent } from './components/vest/simple-form-vest-validation/form-vest-validation.component';
+import { ContactFormComponent } from './components/form-no-validation/contact-form.component';
+import { ContactFormZodValidationComponent } from './components/zod/contact-form-zod-validation/contact-form-zod-validation.component';
+import { ContactFormAsyncZodValidationComponent } from './components/zod/contact-form-zod-async-validation/contact-form-async-zod-validation.component';
+import { ContactFormVestValidationComponent } from './components/vest/contact-form-vest-validation/contact-form-vest-validation.component';
 
 export const routes: Route[] = [
   {
     path: 'no-validation',
-    component: SimpleContactFormComponent,
+    component: ContactFormComponent,
   },
   {
     path: 'zod-validation',
-    component: SimpleFormWithValidationComponent,
+    component: ContactFormZodValidationComponent,
   },
   {
     path: 'async-zod-validation',
-    component: SimpleFormAsyncValidationComponent,
+    component: ContactFormAsyncZodValidationComponent,
   },
   {
     path: 'vest-validation',
-    component: FormVestValidationComponent,
+    component: ContactFormVestValidationComponent,
   },
   {
     path: '',
-    component: SimpleContactFormComponent,
+    component: ContactFormComponent,
   },
 ];
