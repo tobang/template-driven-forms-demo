@@ -1,38 +1,52 @@
 import { Directive, inject } from '@angular/core';
 import {
   AbstractControl,
-  NG_ASYNC_VALIDATORS,
+  NG_VALIDATORS,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { FormZodDirective } from './zod/form-zod.directive';
-import { createAsyncZodValidator, getFormGroupField } from './form.utils';
+
+import { FormDirective } from './form.directive';
+import { getFormGroupField } from './form.utils';
+import { isSuite } from './models';
+import { createZodValidator } from './zod';
+import { createVestValidator } from './vest';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[ngModelGroup]',
   standalone: true,
   providers: [
     {
-      provide: NG_ASYNC_VALIDATORS,
+      provide: NG_VALIDATORS,
       useExisting: FormModelGroupDirective,
       multi: true,
     },
   ],
 })
 export class FormModelGroupDirective implements Validator {
-  private readonly formDirective = inject(FormZodDirective);
+  private readonly formDirective = inject(FormDirective);
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    const { ngForm, schema } = this.formDirective;
-
+    const { ngForm, schema, model } = this.formDirective;
+    if (!schema || !model) {
+      throw new Error('Validation schema or model is missing');
+    }
     const field = getFormGroupField(ngForm.control, control);
-    const validatorFn = createAsyncZodValidator(
-      field,
-      this.formDirective.model,
-      schema
-    );
 
-    return validatorFn(control);
+    if (isSuite(schema)) {
+      const validatorFn = createVestValidator(
+        field,
+        this.formDirective.model,
+        schema
+      );
+      return validatorFn(control);
+    } else {
+      const validatorFn = createZodValidator(
+        field,
+        this.formDirective.model,
+        schema
+      );
+      return validatorFn(control);
+    }
   }
 }

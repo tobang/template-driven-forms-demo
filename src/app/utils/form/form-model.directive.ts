@@ -4,14 +4,17 @@ import {
   AsyncValidator,
   NG_ASYNC_VALIDATORS,
   ValidationErrors,
-  Validator,
 } from '@angular/forms';
-import { FormZodDirective } from './zod/form-zod.directive';
-import { createAsyncZodValidator, getFormControlField } from './form.utils';
+
 import { Observable } from 'rxjs';
 
+import { FormDirective } from './form.directive';
+import { getFormControlField } from './form.utils';
+import { createAsyncZodValidator } from './zod';
+import { createAsyncVestValidator } from './vest';
+import { isSuite } from './models';
+
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[ngModel]',
   standalone: true,
   providers: [
@@ -23,7 +26,7 @@ import { Observable } from 'rxjs';
   ],
 })
 export class FormModelDirective implements AsyncValidator {
-  private readonly formDirective = inject(FormZodDirective);
+  private readonly formDirective = inject(FormDirective);
   private field: string | undefined;
 
   @Input() public alwaysValidate = false;
@@ -34,12 +37,20 @@ export class FormModelDirective implements AsyncValidator {
     const { ngForm, schema } = this.formDirective;
     this.field = getFormControlField(ngForm.control, control);
 
-    const validatorFn = createAsyncZodValidator(
-      this.field,
-      this.formDirective.model,
-      schema
-    );
-
-    return validatorFn(control);
+    if (isSuite(schema)) {
+      const validatorFn = createAsyncVestValidator(
+        this.field,
+        this.formDirective.model,
+        schema
+      );
+      return validatorFn(control);
+    } else {
+      const validatorFn = createAsyncZodValidator(
+        this.field,
+        this.formDirective.model,
+        schema
+      );
+      return validatorFn(control);
+    }
   }
 }

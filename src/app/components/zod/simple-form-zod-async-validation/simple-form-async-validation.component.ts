@@ -9,7 +9,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { ContactModel } from '../../../models/contact.model';
 
-import { FormZodDirective } from '../../../utils/form/zod/form-zod.directive';
+import { FormDirective } from '../../../utils/form/form.directive';
 
 import {
   templateDrivenForms,
@@ -29,7 +29,7 @@ import { createAsyncZodSchema } from '../../../validations/zod';
     ButtonModule,
     CheckboxModule,
     AddressWithValidationComponent,
-    FormZodDirective,
+    FormDirective,
     templateDrivenForms,
   ],
   templateUrl: './simple-form-async-validation.component.html',

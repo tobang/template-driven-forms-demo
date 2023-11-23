@@ -1,22 +1,23 @@
+/* eslint-disable @angular-eslint/directive-selector */
 import { Directive, inject, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+
+import { z } from 'zod';
 import { Suite } from 'vest';
 
 @Directive({
-  selector: 'form[model][suite]',
+  selector: 'form[model][schema]',
   standalone: true,
 })
-export class FormVestDirective<T> {
+export class FormDirective<T> {
+  @Input() public model!: T;
+  @Input() public schema!:
+    | z.ZodTypeAny
+    | Suite<string, string, (model: T, field: string) => void>;
   public readonly ngForm = inject(NgForm, { self: true });
-  @Input() public model: T | null = null;
-  @Input() public suite: Suite<
-    string,
-    string,
-    (model: T, field: string) => void
-  > | null = null;
 
   @Output() formValueChange: Observable<T> = this.ngForm.form.valueChanges.pipe(
     debounceTime(0),
