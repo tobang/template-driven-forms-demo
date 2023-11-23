@@ -5,8 +5,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../../utils/form';
-import { AddressModel } from '../../../models/address.model';
+} from '../../../../utils/form';
+import { AddressModel } from '../../../../models/address.model';
 
 @Component({
   selector: 'app-address-with-validation',

@@ -7,19 +7,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../models/contact.model';
+import { ContactModel } from '../../../models/contact.model';
 
-import { FormDirective } from '../../utils/form/form.directive';
-import {
-  createAsyncZodSchema,
-  simpleZodSchema,
-} from '../validations/simple-form-zod.validation';
+import { FormDirective } from '../../../utils/form/form.directive';
+
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../utils/form/template-driven-forms';
+} from '../../../utils/form/template-driven-forms';
 import { AddressWithValidationComponent } from '../simple-form-zod-validation/address/address-with-validation.component';
-import { ContactService } from 'src/app/services/contact.service';
+import { ContactService } from '../../../services/contact.service';
+import { createAsyncZodSchema } from '../../../validations/zod';
 
 @Component({
   selector: 'app-simple-form-async-validation',

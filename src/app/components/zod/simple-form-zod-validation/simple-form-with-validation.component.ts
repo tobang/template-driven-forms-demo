@@ -7,14 +7,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../models/contact.model';
+import { ContactModel } from '../../../models/contact.model';
 
-import { FormDirective } from '../../utils/form/form.directive';
-import { simpleZodSchema } from '../validations/simple-form-zod.validation';
+import { FormDirective } from '../../../utils/form/form.directive';
+import { simpleZodSchema } from '../../../validations/zod/simple-form-zod.validation';
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../utils/form/template-driven-forms';
+} from '../../../utils/form/template-driven-forms';
 import { AddressWithValidationComponent } from './address/address-with-validation.component';
 
 @Component({

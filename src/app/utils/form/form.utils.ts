@@ -154,10 +154,8 @@ export function createAsyncZodValidator<T>(
   schema: z.ZodTypeAny
 ): AsyncValidatorFn {
   return (control: AbstractControl) => {
-    console.log('Model', field, model);
     const mod = structuredClone(model);
     const modUpdated = set(mod as object, field, control.value);
-    console.log('Updated model', field, modUpdated);
 
     // TODO: Only run schema on data difference
     // Difference between model and modUpdated
@@ -165,7 +163,6 @@ export function createAsyncZodValidator<T>(
 
     return new Observable((observer) => {
       schema.safeParseAsync(modUpdated).then((resultZod) => {
-        console.log('Result zod', resultZod);
         if (!resultZod.success) {
           const zodErrors = resultZod.error.errors.filter(
             (issue) => issue.path.join('.') === field
@@ -174,18 +171,14 @@ export function createAsyncZodValidator<T>(
             const zodErrorsString = zodErrors.reduce((acc: string[], value) => {
               return [...(acc as string[]), value.message];
             }, []);
-            console.log('Errors string', zodErrorsString);
             observer.next({
               error: zodErrorsString[0],
               errors: zodErrorsString,
             });
-            console.log('Observer error completing');
           }
         } else {
-          console.log('Observer success completing');
           observer.next(null);
         }
-        console.log('Completing');
         observer.complete();
       });
     });
