@@ -3,6 +3,7 @@ import { ContactFormComponent } from './components/form-no-validation/contact-fo
 import { ContactFormZodValidationComponent } from './components/zod/contact-form-zod-validation/contact-form-zod-validation.component';
 import { ContactFormAsyncZodValidationComponent } from './components/zod/contact-form-zod-async-validation/contact-form-async-zod-validation.component';
 import { ContactFormVestValidationComponent } from './components/vest/contact-form-vest-validation/contact-form-vest-validation.component';
+import { ContactFormAsyncVestValidationComponent } from './components/vest/contact-form-vest-async-validation/contact-form-async-vest-validation.component';
 
 export const routes: Route[] = [
   {
@@ -20,6 +21,10 @@ export const routes: Route[] = [
   {
     path: 'vest-validation',
     component: ContactFormVestValidationComponent,
+  },
+  {
+    path: 'async-vest-validation',
+    component: ContactFormAsyncVestValidationComponent,
   },
   {
     path: '',

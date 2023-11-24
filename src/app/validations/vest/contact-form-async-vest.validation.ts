@@ -2,8 +2,12 @@ import { create, enforce, omitWhen, only, test } from 'vest';
 
 import { addressValidations } from './address.validation';
 import { ContactModel } from '../../models/contact.model';
+import { ContactService } from '../../services/contact.service';
+import { fromEvent, lastValueFrom, takeUntil } from 'rxjs';
 
-export const createContactValidationSuite = () => {
+export const createContactAsyncValidationSuite = (
+  contactService: ContactService
+) => {
   return create((model: ContactModel, field: string) => {
     only(field);
 
@@ -13,6 +17,16 @@ export const createContactValidationSuite = () => {
 
     test('lastName', 'Last name is required', () => {
       enforce(model.lastName).isNotBlank();
+    });
+
+    omitWhen(!model.nickName, () => {
+      test('nickName', 'nickName is already taken', async ({ signal }) => {
+        await lastValueFrom(
+          contactService
+            .isNickNameTaken()
+            .pipe(takeUntil(fromEvent(signal, 'abort')))
+        ).then((value) => (value ? Promise.reject() : Promise.resolve()));
+      });
     });
 
     addressValidations(model.addresses?.homeAddress, 'addresses.homeAddress');

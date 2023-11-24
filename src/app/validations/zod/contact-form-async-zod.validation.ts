@@ -1,8 +1,8 @@
 import { lastValueFrom, take } from 'rxjs';
 import { z } from 'zod';
 import { ContactService } from '../../services/contact.service';
-import { requiredFormField } from './zod-general.validation';
-import { addressZodSchema } from './simple-form-zod.validation';
+import { requiredFormField } from './zod-utils.validation';
+import { addressZodSchema } from './contact-form-zod.validation';
 
 export const createAsyncZodSchema = (service: ContactService) => {
   return z.object({

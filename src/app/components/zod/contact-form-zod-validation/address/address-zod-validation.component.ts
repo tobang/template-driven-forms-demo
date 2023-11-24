@@ -12,10 +12,10 @@ import { AddressModel } from '../../../../models/address.model';
   selector: 'app-address-with-validation',
   standalone: true,
   imports: [CommonModule, FormsModule, InputTextModule, templateDrivenForms],
-  templateUrl: './address-with-validation.component.html',
-  styleUrls: ['./address-with-validation.component.scss'],
+  templateUrl: './address-zod-validation.component.html',
+  styleUrls: ['./address-zod-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class AddressWithValidationComponent {
+export class AddressZodValidationComponent {
   @Input() public address: AddressModel | undefined;
 }

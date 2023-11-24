@@ -10,12 +10,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ContactModel } from '../../../models/contact.model';
 
 import { FormDirective } from '../../../utils/form/form.directive';
-import { simpleZodSchema } from '../../../validations/zod/simple-form-zod.validation';
+import { simpleZodSchema } from '../../../validations/zod/contact-form-zod.validation';
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../utils/form/template-driven-forms';
-import { AddressWithValidationComponent } from './address/address-with-validation.component';
+import { AddressZodValidationComponent } from './address/address-zod-validation.component';
 
 @Component({
   selector: 'app-contact-form-zod-validation',
@@ -26,7 +26,7 @@ import { AddressWithValidationComponent } from './address/address-with-validatio
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressWithValidationComponent,
+    AddressZodValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],

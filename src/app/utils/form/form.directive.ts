@@ -17,6 +17,7 @@ export class FormDirective<T> {
   @Input() public schema!:
     | z.ZodTypeAny
     | Suite<string, string, (model: T, field: string) => void>;
+
   public readonly ngForm = inject(NgForm, { self: true });
 
   @Output() formValueChange: Observable<T> = this.ngForm.form.valueChanges.pipe(

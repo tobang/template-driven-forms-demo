@@ -7,6 +7,7 @@ export class ContactService {
 
   isNickNameTaken(): Observable<boolean> {
     const randomBoolean = Math.random() < 0.5;
+    console.log('Random', randomBoolean);
     return of(randomBoolean).pipe(delay(500));
   }
 }

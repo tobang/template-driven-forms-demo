@@ -20,5 +20,6 @@ export class HeaderComponent {
     { label: 'Zod validation', routerLink: 'zod-validation' },
     { label: 'Async Zod validation', routerLink: 'async-zod-validation' },
     { label: 'Vest validation', routerLink: 'vest-validation' },
+    { label: 'Async Vest validation', routerLink: 'async-vest-validation' },
   ];
 }

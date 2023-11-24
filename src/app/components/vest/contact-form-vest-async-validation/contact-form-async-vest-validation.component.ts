@@ -15,12 +15,13 @@ import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../utils/form/template-driven-forms';
-import { AddressZodValidationComponent } from '../contact-form-zod-validation/address/address-zod-validation.component';
+
 import { ContactService } from '../../../services/contact.service';
-import { createAsyncZodSchema } from '../../../validations/zod';
+import { AddressVestValidationComponent } from '../contact-form-vest-validation/address/address-vest-validation.component';
+import { createContactAsyncValidationSuite } from '../../../validations/vest/contact-form-async-vest.validation';
 
 @Component({
-  selector: 'app-contact-form-async-zod-validation',
+  selector: 'app-contact-form-async-vest-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,21 +29,22 @@ import { createAsyncZodSchema } from '../../../validations/zod';
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressZodValidationComponent,
+    AddressVestValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-async-zod-validation.component.html',
-  styleUrls: ['./contact-form-async-zod-validation.component.scss'],
+  templateUrl: './contact-form-async-vest-validation.component.html',
+  styleUrls: ['./contact-form-async-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormAsyncZodValidationComponent {
+export class ContactFormAsyncVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<ContactModel> =
-    new BehaviorSubject<ContactModel>({});
   private constactService = inject(ContactService);
-
-  protected contactSchema = createAsyncZodSchema(this.constactService);
+  protected form$: BehaviorSubject<ContactModel> =
+    new BehaviorSubject<ContactModel>({});
+  protected contactSchema = createContactAsyncValidationSuite(
+    this.constactService
+  );
 
   setFormValue(value: ContactModel) {
     this.form$.next(value);
