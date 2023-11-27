@@ -19,6 +19,10 @@ export const createContactAsyncValidationSuite = (
       enforce(model.lastName).isNotBlank();
     });
 
+    test('nickName', 'Nick name is required', () => {
+      enforce(model.nickName).isNotBlank();
+    });
+
     omitWhen(!model.nickName, () => {
       test('nickName', 'nickName is already taken', async ({ signal }) => {
         await lastValueFrom(
