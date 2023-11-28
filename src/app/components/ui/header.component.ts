@@ -17,13 +17,13 @@ export class HeaderComponent {
       label: 'No validation',
       routerLink: 'no-validation',
     },
-    { label: 'Zod validation', routerLink: 'zod-validation' },
-    { label: 'Async Zod validation', routerLink: 'async-zod-validation' },
-    { label: 'Vest validation', routerLink: 'vest-validation' },
-    { label: 'Async Vest validation', routerLink: 'async-vest-validation' },
     {
       label: 'Reactive form validation',
       routerLink: 'reactive-form-validation',
     },
+    { label: 'Zod validation', routerLink: 'zod-validation' },
+    { label: 'Async Zod validation', routerLink: 'async-zod-validation' },
+    { label: 'Vest validation', routerLink: 'vest-validation' },
+    { label: 'Async Vest validation', routerLink: 'async-vest-validation' },
   ];
 }
