@@ -1,24 +1,24 @@
 import { lastValueFrom, take } from 'rxjs';
 import { z } from 'zod';
-import { ContactService } from '../../services/contact.service';
+import { SignupService } from '../../services/signup.service';
 import { requiredFormField } from './zod-utils.validation';
-import { addressZodSchema } from './contact-form-zod.validation';
+import { addressZodSchema } from './signup-form-zod.validation';
 
-export const createAsyncZodSchema = (service: ContactService) => {
+export const createAsyncZodSchema = (service: SignupService) => {
   return z.object({
     firstName: requiredFormField,
     lastName: requiredFormField,
-    nickName: z.string().refine(
+    userName: z.string().refine(
       async (value) => {
-        const nickNameTaken = await lastValueFrom(
-          service.isNickNameTaken().pipe(take(1))
+        const userNameTaken = await lastValueFrom(
+          service.isUserNameTaken().pipe(take(1))
         );
-        if (!nickNameTaken) {
+        if (!userNameTaken) {
           return Promise.resolve(value);
         }
         return Promise.resolve(false);
       },
-      { message: 'Nick name taken!!' }
+      { message: 'User name taken!!' }
     ),
     addresses: z
       .object({

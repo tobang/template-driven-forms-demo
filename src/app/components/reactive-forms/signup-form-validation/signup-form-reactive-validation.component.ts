@@ -13,7 +13,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { AddressReactiveComponent } from './address/address-reactive.component';
 
 @Component({
-  selector: 'app-contact-form-reactive-validation',
+  selector: 'app-signup-form-reactive-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,10 +24,10 @@ import { AddressReactiveComponent } from './address/address-reactive.component';
     CheckboxModule,
     AddressReactiveComponent,
   ],
-  templateUrl: './contact-form-reactive-validation.component.html',
-  styleUrls: ['./contact-form-reactive-validation.component.scss'],
+  templateUrl: './signup-form-reactive-validation.component.html',
+  styleUrls: ['./signup-form-reactive-validation.component.scss'],
 })
-export class ContactFormReactiveValidationComponent {
+export class SignupFormReactiveValidationComponent {
   private readonly formBuilder = inject(FormBuilder);
 
   public readonly form = this.formBuilder.group({

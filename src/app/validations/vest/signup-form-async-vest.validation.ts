@@ -1,14 +1,14 @@
 import { create, enforce, omitWhen, only, test } from 'vest';
 
 import { addressValidations } from './address.validation';
-import { ContactModel } from '../../models/contact.model';
-import { ContactService } from '../../services/contact.service';
+import { SignupModel } from '../../models/signup.model';
+import { SignupService } from '../../services/signup.service';
 import { fromEvent, lastValueFrom, takeUntil } from 'rxjs';
 
-export const createContactAsyncValidationSuite = (
-  contactService: ContactService
+export const createSignupAsyncValidationSuite = (
+  contactService: SignupService
 ) => {
-  return create((model: ContactModel, field: string) => {
+  return create((model: SignupModel, field: string) => {
     only(field);
 
     test('firstName', 'First name is required', () => {
@@ -19,15 +19,15 @@ export const createContactAsyncValidationSuite = (
       enforce(model.lastName).isNotBlank();
     });
 
-    test('nickName', 'Nick name is required', () => {
-      enforce(model.nickName).isNotBlank();
+    test('userName', 'User name is required', () => {
+      enforce(model.userName).isNotBlank();
     });
 
-    omitWhen(!model.nickName, () => {
-      test('nickName', 'nickName is already taken', async ({ signal }) => {
+    omitWhen(!model.userName, () => {
+      test('userName', 'userName is already taken', async ({ signal }) => {
         await lastValueFrom(
           contactService
-            .isNickNameTaken()
+            .isUserNameTaken()
             .pipe(takeUntil(fromEvent(signal, 'abort')))
         ).then((value) => (value ? Promise.reject() : Promise.resolve()));
       });

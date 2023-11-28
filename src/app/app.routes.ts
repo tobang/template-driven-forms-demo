@@ -1,38 +1,38 @@
 import { Route } from '@angular/router';
-import { ContactFormComponent } from './components/form-no-validation/contact-form.component';
-import { ContactFormZodValidationComponent } from './components/template-driven-forms/zod/contact-form-zod-validation/contact-form-zod-validation.component';
-import { ContactFormAsyncZodValidationComponent } from './components/template-driven-forms/zod/contact-form-zod-async-validation/contact-form-async-zod-validation.component';
-import { ContactFormVestValidationComponent } from './components/template-driven-forms/vest/contact-form-vest-validation/contact-form-vest-validation.component';
-import { ContactFormAsyncVestValidationComponent } from './components/template-driven-forms/vest/contact-form-vest-async-validation/contact-form-async-vest-validation.component';
-import { ContactFormReactiveValidationComponent } from './components/reactive-forms/contact-form-validation/contact-form-reactive-validation.component';
+import { SignupFormComponent } from './components/form-no-validation/signup-form.component';
+import { SignupFormZodValidationComponent } from './components/template-driven-forms/zod/signup-form-zod-validation/signup-form-zod-validation.component';
+import { SignupFormAsyncZodValidationComponent } from './components/template-driven-forms/zod/signup-form-zod-async-validation/signup-form-async-zod-validation.component';
+import { SignupFormVestValidationComponent } from './components/template-driven-forms/vest/signup-form-vest-validation/signup-form-vest-validation.component';
+import { SignupFormAsyncVestValidationComponent } from './components/template-driven-forms/vest/signup-form-vest-async-validation/signup-form-async-vest-validation.component';
+import { SignupFormReactiveValidationComponent } from './components/reactive-forms/signup-form-validation/signup-form-reactive-validation.component';
 
 export const routes: Route[] = [
   {
     path: 'no-validation',
-    component: ContactFormComponent,
+    component: SignupFormComponent,
   },
   {
     path: 'zod-validation',
-    component: ContactFormZodValidationComponent,
+    component: SignupFormZodValidationComponent,
   },
   {
     path: 'async-zod-validation',
-    component: ContactFormAsyncZodValidationComponent,
+    component: SignupFormAsyncZodValidationComponent,
   },
   {
     path: 'vest-validation',
-    component: ContactFormVestValidationComponent,
+    component: SignupFormVestValidationComponent,
   },
   {
     path: 'async-vest-validation',
-    component: ContactFormAsyncVestValidationComponent,
+    component: SignupFormAsyncVestValidationComponent,
   },
   {
     path: 'reactive-form-validation',
-    component: ContactFormReactiveValidationComponent,
+    component: SignupFormReactiveValidationComponent,
   },
   {
     path: '',
-    component: ContactFormComponent,
+    component: SignupFormComponent,
   },
 ];

@@ -1,8 +1,8 @@
 <div class="form-container" *ngIf="form$ | async as form">
-  <h2>Contact form - with Vest validation</h2>
+  <h2>Signup form - with Vest validation</h2>
   <form
     [model]="form"
-    [schema]="contactSchema"
+    [schema]="signupSchema"
     (formValueChange)="setFormValue($event)"
     (ngSubmit)="onSubmit()"
   >

@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../../../models/contact.model';
+import { SignupModel } from '../../../../models/signup.model';
 
 import { FormDirective } from '../../../../utils/form/form.directive';
 
@@ -15,12 +15,13 @@ import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../../utils/form/template-driven-forms';
-import { AddressZodValidationComponent } from '../contact-form-zod-validation/address/address-zod-validation.component';
-import { ContactService } from '../../../../services/contact.service';
-import { createAsyncZodSchema } from '../../../../validations/zod';
+
+import { SignupService } from '../../../../services/signup.service';
+import { AddressVestValidationComponent } from '../signup-form-vest-validation/address/address-vest-validation.component';
+import { createSignupAsyncValidationSuite } from '../../../../validations/vest/signup-form-async-vest.validation';
 
 @Component({
-  selector: 'app-contact-form-async-zod-validation',
+  selector: 'app-signup-form-async-vest-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,23 +29,24 @@ import { createAsyncZodSchema } from '../../../../validations/zod';
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressZodValidationComponent,
+    AddressVestValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-async-zod-validation.component.html',
-  styleUrls: ['./contact-form-async-zod-validation.component.scss'],
+  templateUrl: './signup-form-async-vest-validation.component.html',
+  styleUrls: ['./signup-form-async-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormAsyncZodValidationComponent {
+export class SignupFormAsyncVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<ContactModel> =
-    new BehaviorSubject<ContactModel>({});
-  private constactService = inject(ContactService);
+  private constactService = inject(SignupService);
+  protected form$: BehaviorSubject<SignupModel> =
+    new BehaviorSubject<SignupModel>({});
+  protected signupSchema = createSignupAsyncValidationSuite(
+    this.constactService
+  );
 
-  protected contactSchema = createAsyncZodSchema(this.constactService);
-
-  setFormValue(value: ContactModel) {
+  setFormValue(value: SignupModel) {
     this.form$.next(value);
   }
 

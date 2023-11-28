@@ -1,8 +1,8 @@
 <div class="form-container" *ngIf="form$ | async as form">
-  <h2>Contact form - with async Vest validation</h2>
+  <h2>Signup form - with async Zod validation</h2>
   <form
     [model]="form"
-    [schema]="contactSchema"
+    [schema]="signupSchema"
     (formValueChange)="setFormValue($event)"
     (ngSubmit)="onSubmit()"
   >
@@ -29,22 +29,22 @@
     </div>
 
     <div validation-wrapper>
-      <label for="nickName">Nick name</label>
+      <label for="userName">User name</label>
       <input
         type="text"
         pInputText
-        [ngModel]="form.nickName"
-        name="nickName"
-        id="nickName"
+        [ngModel]="form.userName"
+        name="userName"
+        id="userName"
       />
     </div>
 
     <ng-container ngModelGroup="addresses">
       <h4 class="home-label">Home address</h4>
       <ng-container ngModelGroup="homeAddress">
-        <app-address-vest-validation
+        <app-address-with-validation
           [address]="form.addresses?.homeAddress"
-        ></app-address-vest-validation>
+        ></app-address-with-validation>
       </ng-container>
 
       <p-checkbox
@@ -57,9 +57,9 @@
       <ng-container *ngIf="form.addresses?.includeWorkAddress">
         <h4 class="home-label">Work address</h4>
         <ng-container ngModelGroup="workAddress">
-          <app-address-vest-validation
+          <app-address-with-validation
             [address]="form.addresses?.workAddress"
-          ></app-address-vest-validation>
+          ></app-address-with-validation>
         </ng-container>
       </ng-container>
     </ng-container>

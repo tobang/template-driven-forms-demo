@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 
@@ -9,10 +9,10 @@ import { AddressComponent } from './address/address.component';
 
 import { FormDirective } from '../../utils/form/no-validation/form-no-validation.directive';
 import { BehaviorSubject } from 'rxjs';
-import { ContactModel } from '../../models/contact.model';
+import { SignupModel } from '../../models/signup.model';
 
 @Component({
-  selector: 'app-contact-form',
+  selector: 'app-signup-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,13 +23,13 @@ import { ContactModel } from '../../models/contact.model';
     AddressComponent,
     FormDirective,
   ],
-  templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss'],
+  templateUrl: './signup-form.component.html',
+  styleUrls: ['./signup-form.component.scss'],
 })
-export class ContactFormComponent {
+export class SignupFormComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  protected formValue$: BehaviorSubject<ContactModel> =
-    new BehaviorSubject<ContactModel>({});
+  protected formValue$: BehaviorSubject<SignupModel> =
+    new BehaviorSubject<SignupModel>({});
 
   onSubmit() {
     console.log(this.formValue$.value);

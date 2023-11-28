@@ -1,65 +1,51 @@
-<div class="form-container" *ngIf="form$ | async as form">
-  <h2>Contact form - with async Zod validation</h2>
+<div class="form-container" *ngIf="this.formValue$ | async as formValue">
+  <h2>Signup form - no validation</h2>
   <form
-    [model]="form"
-    [schema]="contactSchema"
-    (formValueChange)="setFormValue($event)"
+    (formValueChange)="this.formValue$.next($event)"
     (ngSubmit)="onSubmit()"
   >
-    <div validation-wrapper>
+    <div class="flex-column">
       <label for="firstName">First name</label>
       <input
         type="text"
         pInputText
-        [ngModel]="form.firstName"
+        [ngModel]="formValue.firstName"
         name="firstName"
         id="firstName"
       />
     </div>
-
-    <div validation-wrapper>
+    <div class="flex-column">
       <label for="lastName">Last name</label>
       <input
         type="text"
         pInputText
-        [ngModel]="form.lastName"
+        [ngModel]="formValue.lastName"
         name="lastName"
         id="lastName"
-      />
-    </div>
-
-    <div validation-wrapper>
-      <label for="nickName">Nick name</label>
-      <input
-        type="text"
-        pInputText
-        [ngModel]="form.nickName"
-        name="nickName"
-        id="nickName"
       />
     </div>
 
     <ng-container ngModelGroup="addresses">
       <h4 class="home-label">Home address</h4>
       <ng-container ngModelGroup="homeAddress">
-        <app-address-with-validation
-          [address]="form.addresses?.homeAddress"
-        ></app-address-with-validation>
+        <app-address [address]="formValue.addresses?.homeAddress"></app-address>
       </ng-container>
 
       <p-checkbox
-        [ngModel]="form.addresses?.includeWorkAddress"
+        [ngModel]="formValue.addresses?.includeWorkAddress"
         [binary]="true"
         name="includeWorkAddress"
         inputId="workAddress"
       ></p-checkbox>
-      <label class="include-wa" for="workAddress">Include work address</label>
-      <ng-container *ngIf="form.addresses?.includeWorkAddress">
+      <label class="include-wa" for="workAddress"
+        >Include work address</label
+      >
+      <ng-container *ngIf="formValue.addresses?.includeWorkAddress">
         <h4 class="home-label">Work address</h4>
         <ng-container ngModelGroup="workAddress">
-          <app-address-with-validation
-            [address]="form.addresses?.workAddress"
-          ></app-address-with-validation>
+          <app-address
+            [address]="formValue.addresses?.workAddress"
+          ></app-address>
         </ng-container>
       </ng-container>
     </ng-container>
@@ -80,7 +66,7 @@
       (click)="showForm()"
     ></button>
     <pre>
-    {{ form | json }}
+    {{ formValue | json }}
   </pre
     >
   </div>

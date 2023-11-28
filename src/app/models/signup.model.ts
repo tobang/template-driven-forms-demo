@@ -1,9 +1,9 @@
 import { AddressModel } from './address.model';
 
-export type ContactModel = {
+export type SignupModel = {
   firstName?: string;
   lastName?: string;
-  nickName?: string;
+  userName?: string;
   addresses?: {
     homeAddress?: AddressModel;
     workAddress?: AddressModel;

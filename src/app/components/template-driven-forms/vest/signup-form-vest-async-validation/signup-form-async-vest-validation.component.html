@@ -1,20 +1,20 @@
 <div class="form-container" *ngIf="form$ | async as form">
-  <h2>Simple contact form - with zod validation</h2>
+  <h2>Signup form - with async Vest validation</h2>
   <form
     [model]="form"
-    [schema]="contactSchema"
+    [schema]="signupSchema"
     (formValueChange)="setFormValue($event)"
     (ngSubmit)="onSubmit()"
   >
     <div validation-wrapper>
       <label for="firstName">First name</label>
       <input
-      type="text"
-      pInputText
-      [ngModel]="form.firstName"
-      name="firstName"
-      id="firstName"
-    />
+        type="text"
+        pInputText
+        [ngModel]="form.firstName"
+        name="firstName"
+        id="firstName"
+      />
     </div>
 
     <div validation-wrapper>
@@ -26,13 +26,25 @@
         name="lastName"
         id="lastName"
       />
+    </div>
 
+    <div validation-wrapper>
+      <label for="userName">User name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.userName"
+        name="userName"
+        id="userName"
+      />
     </div>
 
     <ng-container ngModelGroup="addresses">
       <h4 class="home-label">Home address</h4>
       <ng-container ngModelGroup="homeAddress">
-        <app-address-with-validation [address]="form.addresses?.homeAddress"></app-address-with-validation>
+        <app-address-vest-validation
+          [address]="form.addresses?.homeAddress"
+        ></app-address-vest-validation>
       </ng-container>
 
       <p-checkbox
@@ -40,17 +52,14 @@
         [binary]="true"
         name="includeWorkAddress"
         inputId="workAddress"
-
       ></p-checkbox>
-      <label class="include-wa" for="workAddress"
-        >Include work address</label
-      >
+      <label class="include-wa" for="workAddress">Include work address</label>
       <ng-container *ngIf="form.addresses?.includeWorkAddress">
         <h4 class="home-label">Work address</h4>
         <ng-container ngModelGroup="workAddress">
-          <app-address-with-validation
+          <app-address-vest-validation
             [address]="form.addresses?.workAddress"
-          ></app-address-with-validation>
+          ></app-address-vest-validation>
         </ng-container>
       </ng-container>
     </ng-container>

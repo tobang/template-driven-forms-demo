@@ -1,2 +1,2 @@
 export * from './address.validation';
-export * from './contact-form-vest.validation';
+export * from './signup-form-vest.validation';

@@ -7,18 +7,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../../../models/contact.model';
+import { SignupModel } from '../../../../models/signup.model';
 
 import { FormDirective } from '../../../../utils/form/form.directive';
-import { simpleZodSchema } from '../../../../validations/zod/contact-form-zod.validation';
+
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../../utils/form/template-driven-forms';
-import { AddressZodValidationComponent } from './address/address-zod-validation.component';
+import { AddressVestValidationComponent } from './address/address-vest-validation.component';
+import { createSignupValidationSuite } from '../../../../validations/vest';
 
 @Component({
-  selector: 'app-contact-form-zod-validation',
+  selector: 'app-signup-form-vest-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,22 +27,23 @@ import { AddressZodValidationComponent } from './address/address-zod-validation.
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressZodValidationComponent,
+    AddressVestValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-zod-validation.component.html',
-  styleUrls: ['./contact-form-zod-validation.component.scss'],
+  templateUrl: './signup-form-vest-validation.component.html',
+  styleUrls: ['./signup-form-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormZodValidationComponent {
+export class SignupFormVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<ContactModel> =
-    new BehaviorSubject<ContactModel>({});
+  public form$: BehaviorSubject<SignupModel> = new BehaviorSubject<SignupModel>(
+    {}
+  );
 
-  protected contactSchema = simpleZodSchema;
+  protected signupSchema = createSignupValidationSuite();
 
-  setFormValue(value: ContactModel) {
+  setFormValue(value: SignupModel) {
     this.form$.next(value);
   }
 

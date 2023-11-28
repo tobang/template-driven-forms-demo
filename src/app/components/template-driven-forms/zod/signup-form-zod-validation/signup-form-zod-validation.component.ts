@@ -7,19 +7,18 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../../../models/contact.model';
+import { SignupModel } from '../../../../models/signup.model';
 
 import { FormDirective } from '../../../../utils/form/form.directive';
-
+import { simpleZodSchema } from '../../../../validations/zod/signup-form-zod.validation';
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
 } from '../../../../utils/form/template-driven-forms';
-import { AddressVestValidationComponent } from './address/address-vest-validation.component';
-import { createContactValidationSuite } from '../../../../validations/vest';
+import { AddressZodValidationComponent } from './address/address-zod-validation.component';
 
 @Component({
-  selector: 'app-contact-form-vest-validation',
+  selector: 'app-signup-form-zod-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,22 +26,23 @@ import { createContactValidationSuite } from '../../../../validations/vest';
     FormsModule,
     ButtonModule,
     CheckboxModule,
-    AddressVestValidationComponent,
+    AddressZodValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-vest-validation.component.html',
-  styleUrls: ['./contact-form-vest-validation.component.scss'],
+  templateUrl: './signup-form-zod-validation.component.html',
+  styleUrls: ['./signup-form-zod-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormVestValidationComponent {
+export class SignupFormZodValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<ContactModel> =
-    new BehaviorSubject<ContactModel>({});
+  public form$: BehaviorSubject<SignupModel> = new BehaviorSubject<SignupModel>(
+    {}
+  );
 
-  protected contactSchema = createContactValidationSuite();
+  protected contactSchema = simpleZodSchema;
 
-  setFormValue(value: ContactModel) {
+  setFormValue(value: SignupModel) {
     this.form$.next(value);
   }
 
