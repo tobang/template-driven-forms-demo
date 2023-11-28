@@ -1,6 +1,7 @@
 <div class="form-container">
   <h2>Signup form - with Reactive form validation</h2>
-  <form (ngSubmit)="onSubmit()">
+  <form  (ngSubmit)="onSubmit()">
+    <div class="form-body">
     <div class="flex-column">
       <label for="firstName">First name</label>
       <input
@@ -25,6 +26,12 @@
         [formControl]="form.controls.lastName"
         id="lastName"
       />
+      <div
+        *ngIf="form.controls.lastName.errors?.['required'] && !form.controls.lastName.pristine"
+        class="p-error"
+      >
+        Last name is required
+      </div>
     </div>
 
     <ng-container ngModelGroup="addresses">
@@ -48,7 +55,7 @@
         <h4 class="home-label">Work address</h4>
         <ng-container ngModelGroup="workAddress">
           <app-address-reactive
-            [address]="form.controls.addresses.controls.shippingAddress"
+            [address]="form.controls.addresses.controls.workAddress"
           ></app-address-reactive>
         </ng-container>
       </ng-container>
@@ -61,6 +68,7 @@
       type="reset"
       class="p-button-success"
     ></button>
+  </div>
     <div class="form-value">
       <button
         pButton

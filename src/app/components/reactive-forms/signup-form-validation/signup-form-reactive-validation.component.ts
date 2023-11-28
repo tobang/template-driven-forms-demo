@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AddressReactiveComponent } from './address/address-reactive.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-signup-form-reactive-validation',
@@ -27,8 +28,11 @@ import { AddressReactiveComponent } from './address/address-reactive.component';
   templateUrl: './signup-form-reactive-validation.component.html',
   styleUrls: ['./signup-form-reactive-validation.component.scss'],
 })
-export class SignupFormReactiveValidationComponent {
+export class SignupFormReactiveValidationComponent
+  implements OnInit, OnDestroy
+{
   private readonly formBuilder = inject(FormBuilder);
+  private readonly destroy$ = new Subject();
 
   public readonly form = this.formBuilder.group({
     firstName: ['', Validators.required],
@@ -38,15 +42,36 @@ export class SignupFormReactiveValidationComponent {
       homeAddress: this.formBuilder.group({
         street: ['', Validators.required],
         city: ['', Validators.required],
-        zipcode: ['', Validators.required],
+        zipcode: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       }),
-      shippingAddress: this.formBuilder.group({
+      workAddress: this.formBuilder.group({
         street: ['', Validators.required],
         city: ['', Validators.required],
-        zipcode: ['', Validators.required],
+        zipcode: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       }),
     }),
   });
+
+  ngOnInit(): void {
+    // Start by disabling the workAddress as it is hidden by default
+    this.form.controls.addresses.controls.workAddress.disable();
+    // Listen to changes to the includeWorkAddress checkbox control
+    // and update form accordingly
+    this.form.controls.addresses.controls.includeWorkAddress.valueChanges.subscribe(
+      (include) => {
+        if (include) {
+          this.form.controls.addresses.controls.workAddress.enable();
+        } else {
+          this.form.controls.addresses.controls.workAddress.disable();
+        }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(undefined);
+    this.destroy$.complete();
+  }
 
   onSubmit() {
     if (this.form.valid) {

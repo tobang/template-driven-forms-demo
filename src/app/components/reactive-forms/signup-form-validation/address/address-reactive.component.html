@@ -9,6 +9,12 @@
       id="street"
       style="width: 530px"
     />
+    <div
+      *ngIf="address.controls.street.errors?.['required'] && !address.controls.street.pristine"
+      class="p-error"
+    >
+      Street is required
+    </div>
   </div>
 
   <div class="flex-column">
@@ -20,6 +26,18 @@
       name="zipcode"
       id="zipcode"
     />
+    <div
+      *ngIf="address.controls.zipcode.errors?.['required'] && !address.controls.zipcode.pristine"
+      class="p-error"
+    >
+      Zip code is required
+    </div>
+    <div
+      *ngIf="address.controls.zipcode.errors?.['pattern'] && !address.controls.zipcode.pristine"
+      class="p-error"
+    >
+      Zip code is invalid
+    </div>
   </div>
   <div class="flex-column">
     <label for="city">City</label>
@@ -30,5 +48,11 @@
       name="city"
       id="city"
     />
+    <div
+      *ngIf="address.controls.city.errors?.['required'] && !address.controls.city.pristine"
+      class="p-error"
+    >
+      City is required
+    </div>
   </div>
 </div>
