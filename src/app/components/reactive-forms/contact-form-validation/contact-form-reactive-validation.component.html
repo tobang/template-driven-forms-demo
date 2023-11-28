@@ -1,0 +1,77 @@
+<div class="form-container">
+  <h2>Contact form - with Reactive form validation</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="flex-column">
+      <label for="firstName">First name</label>
+      <input
+        type="text"
+        pInputText
+        [formControl]="form.controls.firstName"
+        id="firstName"
+      />
+      <div
+        *ngIf="form.controls.firstName.errors?.['required'] && !form.controls.firstName.pristine"
+        class="p-error"
+      >
+        First name is required
+      </div>
+    </div>
+
+    <div class="flex-column">
+      <label for="lastName">Last name</label>
+      <input
+        type="text"
+        pInputText
+        [formControl]="form.controls.lastName"
+        id="lastName"
+      />
+    </div>
+
+    <ng-container ngModelGroup="addresses">
+      <h4 class="home-label">Home address</h4>
+      <ng-container ngModelGroup="homeAddress">
+        <app-address-reactive
+          [address]="form.controls.addresses.controls.homeAddress"
+        ></app-address-reactive>
+      </ng-container>
+
+      <p-checkbox
+        [formControl]="form.controls.addresses.controls.includeWorkAddress"
+        [binary]="true"
+        name="includeWorkAddress"
+        inputId="workAddress"
+      ></p-checkbox>
+      <label class="include-wa" for="workAddress">Include work address</label>
+      <ng-container
+        *ngIf="form.controls.addresses.controls.includeWorkAddress.value"
+      >
+        <h4 class="home-label">Work address</h4>
+        <ng-container ngModelGroup="workAddress">
+          <app-address-reactive
+            [address]="form.controls.addresses.controls.shippingAddress"
+          ></app-address-reactive>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <button pButton label="Submit" type="submit"></button>
+    <button
+      pButton
+      label="Reset"
+      type="reset"
+      class="p-button-success"
+    ></button>
+    <div class="form-value">
+      <button
+        pButton
+        label="Show reactive form"
+        class="p-button-danger"
+        (click)="showForm()"
+      ></button>
+      <pre>
+        {{ form.value | json }}
+      </pre>
+    </div>
+  </form>
+
+</div>

@@ -5,17 +5,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../../../utils/form';
-import { AddressModel } from '../../../../models/address.model';
+} from '../../../../../utils/form';
+import { AddressModel } from '../../../../../models/address.model';
 
 @Component({
-  selector: 'app-address-with-validation',
+  selector: 'app-address-vest-validation',
   standalone: true,
   imports: [CommonModule, FormsModule, InputTextModule, templateDrivenForms],
-  templateUrl: './address-zod-validation.component.html',
-  styleUrls: ['./address-zod-validation.component.scss'],
+  templateUrl: './address-vest-validation.component.html',
+  styleUrls: ['./address-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class AddressZodValidationComponent {
+export class AddressVestValidationComponent {
   @Input() public address: AddressModel | undefined;
 }

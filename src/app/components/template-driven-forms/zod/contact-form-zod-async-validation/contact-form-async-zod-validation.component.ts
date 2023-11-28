@@ -7,18 +7,20 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../../models/contact.model';
+import { ContactModel } from '../../../../models/contact.model';
 
-import { FormDirective } from '../../../utils/form/form.directive';
-import { simpleZodSchema } from '../../../validations/zod/contact-form-zod.validation';
+import { FormDirective } from '../../../../utils/form/form.directive';
+
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../../utils/form/template-driven-forms';
-import { AddressZodValidationComponent } from './address/address-zod-validation.component';
+} from '../../../../utils/form/template-driven-forms';
+import { AddressZodValidationComponent } from '../contact-form-zod-validation/address/address-zod-validation.component';
+import { ContactService } from '../../../../services/contact.service';
+import { createAsyncZodSchema } from '../../../../validations/zod';
 
 @Component({
-  selector: 'app-contact-form-zod-validation',
+  selector: 'app-contact-form-async-zod-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,16 +32,17 @@ import { AddressZodValidationComponent } from './address/address-zod-validation.
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-zod-validation.component.html',
-  styleUrls: ['./contact-form-zod-validation.component.scss'],
+  templateUrl: './contact-form-async-zod-validation.component.html',
+  styleUrls: ['./contact-form-async-zod-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormZodValidationComponent {
+export class ContactFormAsyncZodValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
   public form$: BehaviorSubject<ContactModel> =
     new BehaviorSubject<ContactModel>({});
+  private constactService = inject(ContactService);
 
-  protected contactSchema = simpleZodSchema;
+  protected contactSchema = createAsyncZodSchema(this.constactService);
 
   setFormValue(value: ContactModel) {
     this.form$.next(value);

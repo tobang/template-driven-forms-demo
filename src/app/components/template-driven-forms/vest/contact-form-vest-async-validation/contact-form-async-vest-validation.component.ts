@@ -7,19 +7,21 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 
-import { ContactModel } from '../../../models/contact.model';
+import { ContactModel } from '../../../../models/contact.model';
 
-import { FormDirective } from '../../../utils/form/form.directive';
+import { FormDirective } from '../../../../utils/form/form.directive';
 
 import {
   templateDrivenForms,
   templateDrivenFormsViewProviders,
-} from '../../../utils/form/template-driven-forms';
-import { AddressVestValidationComponent } from './address/address-vest-validation.component';
-import { createContactValidationSuite } from '../../../validations/vest';
+} from '../../../../utils/form/template-driven-forms';
+
+import { ContactService } from '../../../../services/contact.service';
+import { AddressVestValidationComponent } from '../contact-form-vest-validation/address/address-vest-validation.component';
+import { createContactAsyncValidationSuite } from '../../../../validations/vest/contact-form-async-vest.validation';
 
 @Component({
-  selector: 'app-contact-form-vest-validation',
+  selector: 'app-contact-form-async-vest-validation',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,16 +33,18 @@ import { createContactValidationSuite } from '../../../validations/vest';
     FormDirective,
     templateDrivenForms,
   ],
-  templateUrl: './contact-form-vest-validation.component.html',
-  styleUrls: ['./contact-form-vest-validation.component.scss'],
+  templateUrl: './contact-form-async-vest-validation.component.html',
+  styleUrls: ['./contact-form-async-vest-validation.component.scss'],
   viewProviders: [templateDrivenFormsViewProviders],
 })
-export class ContactFormVestValidationComponent {
+export class ContactFormAsyncVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<ContactModel> =
+  private constactService = inject(ContactService);
+  protected form$: BehaviorSubject<ContactModel> =
     new BehaviorSubject<ContactModel>({});
-
-  protected contactSchema = createContactValidationSuite();
+  protected contactSchema = createContactAsyncValidationSuite(
+    this.constactService
+  );
 
   setFormValue(value: ContactModel) {
     this.form$.next(value);
