@@ -26,7 +26,29 @@
         name="lastName"
         id="lastName"
       />
+    </div>
 
+    <div validation-wrapper>
+      <label for="age">Age</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.age || 0"
+        name="age"
+        id="age"
+      />
+    </div>
+
+    <div validation-wrapper>
+      <label for="parentEmail">Parent email</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.parentEmail"
+        name="parentEmail"
+        id="parentEmail"
+        [disabled]="(form.age ?? 0) > 17 || (form.age ?? 0) < 10"
+      />
     </div>
 
     <ng-container ngModelGroup="addresses">

@@ -24,7 +24,7 @@ export const createSignupAsyncValidationSuite = (
     });
 
     omitWhen(!model.userName, () => {
-      test('userName', 'userName is already taken', async ({ signal }) => {
+      test('userName', 'User name is already taken', async ({ signal }) => {
         await lastValueFrom(
           contactService
             .isUserNameTaken()

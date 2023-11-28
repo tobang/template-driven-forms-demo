@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AddressReactiveComponent } from './address/address-reactive.component';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-signup-form-reactive-validation',
@@ -57,15 +57,15 @@ export class SignupFormReactiveValidationComponent
     this.form.controls.addresses.controls.workAddress.disable();
     // Listen to changes to the includeWorkAddress checkbox control
     // and update form accordingly
-    this.form.controls.addresses.controls.includeWorkAddress.valueChanges.subscribe(
-      (include) => {
+    this.form.controls.addresses.controls.includeWorkAddress.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((include) => {
         if (include) {
           this.form.controls.addresses.controls.workAddress.enable();
         } else {
           this.form.controls.addresses.controls.workAddress.disable();
         }
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {

@@ -1,8 +1,15 @@
-import { Directive, inject, Input } from '@angular/core';
+import {
+  Directive,
+  inject,
+  Input,
+  OnInit,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   AbstractControl,
   AsyncValidator,
   NG_ASYNC_VALIDATORS,
+  NgControl,
   ValidationErrors,
 } from '@angular/forms';
 
@@ -27,6 +34,8 @@ import { isSuite } from './models';
 })
 export class FormModelDirective implements AsyncValidator {
   private readonly formDirective = inject(FormDirective);
+  private readonly vcr = inject(ViewContainerRef);
+
   private field: string | undefined;
 
   @Input() public alwaysValidate = false;
