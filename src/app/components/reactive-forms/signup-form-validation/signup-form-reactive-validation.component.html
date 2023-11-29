@@ -1,74 +1,120 @@
 <div class="form-container">
   <h2>Signup form - with Reactive form validation</h2>
-  <form  (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()">
     <div class="form-body">
-    <div class="flex-column">
-      <label for="firstName">First name</label>
-      <input
-        type="text"
-        pInputText
-        [formControl]="form.controls.firstName"
-        id="firstName"
-      />
-      <div
-        *ngIf="form.controls.firstName.errors?.['required'] && !form.controls.firstName.pristine"
-        class="p-error"
-      >
-        First name is required
+      <div class="flex-column">
+        <label for="firstName">First name</label>
+        <input
+          type="text"
+          pInputText
+          [formControl]="form.controls.firstName"
+          id="firstName"
+        />
+        <div
+          *ngIf="form.controls.firstName.errors?.['required'] && !form.controls.firstName.pristine"
+          class="p-error"
+        >
+          First name is required
+        </div>
       </div>
-    </div>
 
-    <div class="flex-column">
-      <label for="lastName">Last name</label>
-      <input
-        type="text"
-        pInputText
-        [formControl]="form.controls.lastName"
-        id="lastName"
-      />
-      <div
-        *ngIf="form.controls.lastName.errors?.['required'] && !form.controls.lastName.pristine"
-        class="p-error"
-      >
-        Last name is required
+      <div class="flex-column">
+        <label for="lastName">Last name</label>
+        <input
+          type="text"
+          pInputText
+          [formControl]="form.controls.lastName"
+          id="lastName"
+        />
+        <div
+          *ngIf="form.controls.lastName.errors?.['required'] && !form.controls.lastName.pristine"
+          class="p-error"
+        >
+          Last name is required
+        </div>
       </div>
-    </div>
 
-    <ng-container ngModelGroup="addresses">
-      <h4 class="home-label">Home address</h4>
-      <ng-container ngModelGroup="homeAddress">
-        <app-address-reactive
-          [address]="form.controls.addresses.controls.homeAddress"
-        ></app-address-reactive>
-      </ng-container>
+      <div class="flex-column">
+        <label for="age">Age</label>
+        <input
+          type="text"
+          pInputText
+          [formControl]="form.controls.age"
+          name="age"
+          id="age"
+        />
+        <div
+          *ngIf="form.controls.age.errors?.['required'] && !form.controls.age.pristine"
+          class="p-error"
+        >
+          Age is required
+        </div>
+        <div
+          *ngIf="form.controls.age.errors?.['min'] && !form.controls.age.pristine"
+          class="p-error"
+        >
+          You must be 10 years old
+        </div>
+      </div>
 
-      <p-checkbox
-        [formControl]="form.controls.addresses.controls.includeWorkAddress"
-        [binary]="true"
-        name="includeWorkAddress"
-        inputId="workAddress"
-      ></p-checkbox>
-      <label class="include-wa" for="workAddress">Include work address</label>
-      <ng-container
-        *ngIf="form.controls.addresses.controls.includeWorkAddress.value"
-      >
-        <h4 class="home-label">Work address</h4>
-        <ng-container ngModelGroup="workAddress">
+      <div class="flex-column">
+        <label for="parentEmail">Parent email</label>
+        <input
+          type="text"
+          pInputText
+          [formControl]="form.controls.parentEmail"
+          name="parentEmail"
+          id="parentEmail"
+        />
+        <div
+          *ngIf="form.controls.parentEmail.errors?.['required'] && !form.controls.parentEmail.pristine"
+          class="p-error"
+        >
+          Parent email is required
+        </div>
+        <div
+          *ngIf="form.controls.parentEmail.errors?.['email'] && !form.controls.parentEmail.pristine"
+          class="p-error"
+        >
+          Email address must be valid
+        </div>
+      </div>
+
+      <ng-container ngModelGroup="addresses">
+        <h4 class="home-label">Home address</h4>
+        <ng-container ngModelGroup="homeAddress">
           <app-address-reactive
-            [address]="form.controls.addresses.controls.workAddress"
+            [address]="form.controls.addresses.controls.homeAddress"
           ></app-address-reactive>
         </ng-container>
-      </ng-container>
-    </ng-container>
 
-    <button pButton label="Submit" type="submit"></button>
-    <button
-      pButton
-      label="Reset"
-      type="reset"
-      class="p-button-success"
-    ></button>
-  </div>
+        <p-checkbox
+          [formControl]="form.controls.addresses.controls.includeWorkAddress"
+          [binary]="true"
+          name="includeWorkAddress"
+          inputId="workAddress"
+        ></p-checkbox>
+        <label class="include-wa" for="workAddress">Include work address</label>
+        <ng-container
+          *ngIf="form.controls.addresses.controls.includeWorkAddress.value"
+        >
+          <h4 class="home-label">Work address</h4>
+          <ng-container ngModelGroup="workAddress">
+            <app-address-reactive
+              [address]="form.controls.addresses.controls.workAddress"
+            ></app-address-reactive>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <button pButton label="Submit" type="submit"></button>
+      <button
+        pButton
+        label="Reset"
+        type="reset"
+        class="p-button-success"
+      ></button>
+    </div>
     <div class="form-value">
       <button
         pButton
@@ -81,5 +127,4 @@
       </pre>
     </div>
   </form>
-
 </div>

@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AddressReactiveComponent } from './address/address-reactive.component';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, startWith, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-signup-form-reactive-validation',
@@ -37,6 +37,8 @@ export class SignupFormReactiveValidationComponent
   public readonly form = this.formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    age: [0, [Validators.required, Validators.min(10)]],
+    parentEmail: ['', [Validators.required, Validators.email]],
     addresses: this.formBuilder.group({
       includeWorkAddress: [],
       homeAddress: this.formBuilder.group({
@@ -64,6 +66,16 @@ export class SignupFormReactiveValidationComponent
           this.form.controls.addresses.controls.workAddress.enable();
         } else {
           this.form.controls.addresses.controls.workAddress.disable();
+        }
+      });
+
+    this.form.controls.age.valueChanges
+      .pipe(startWith(this.form.controls.age.value), takeUntil(this.destroy$))
+      .subscribe((age) => {
+        if (age && age < 18 && age > 9) {
+          this.form.controls.parentEmail.enable();
+        } else {
+          this.form.controls.parentEmail.disable();
         }
       });
   }
