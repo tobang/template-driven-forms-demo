@@ -1,22 +1,14 @@
+<!-- This is where the control is projected -->
 <div class="input-wrapper__content">
   <ng-content></ng-content>
 </div>
+<!-- This is where the errors are shown -->
 <div class="input-wrapper__errors">
   <!-- Errors for formControl -->
   <ul *ngIf="ngModel?.control?.errors && (ngModel?.touched || ngModel?.dirty)">
-    <ng-container *ngIf="showAllErrors; else singleError">
-      <li
-        class="p-error"
-        *ngFor="let error of ngModel?.control?.errors?.['errors']"
-      >
-        {{ error }}
-      </li>
-    </ng-container>
-    <ng-template #singleError>
-      <li class="p-error">
-        {{ ngModel?.control?.errors?.['errors'][0] }}
-      </li>
-    </ng-template>
+    <li class="p-error">
+      {{ ngModel?.control?.errors?.['errors'][0] }}
+    </li>
   </ul>
 
   <!-- Errors for formGroup -->

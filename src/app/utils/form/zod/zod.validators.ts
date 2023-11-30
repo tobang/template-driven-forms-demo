@@ -53,10 +53,6 @@ export function createAsyncZodValidator<T>(
     const mod = structuredClone(model);
     const modUpdated = set(mod as object, field, control.value);
 
-    // TODO: Only run schema on data difference
-    // Difference between model and modUpdated
-    // Maybe all fields in schema has to be optional?
-
     return new Observable((observer) => {
       schema.safeParseAsync(modUpdated).then((resultZod) => {
         if (!resultZod.success) {

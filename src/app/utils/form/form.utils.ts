@@ -94,7 +94,7 @@ export const getGroupPath = (
  * @param rootForm
  * @param control
  */
-export const getFormControlField = (
+export const getFormControlFieldName = (
   rootForm: FormGroup,
   control: AbstractControl
 ): string => {
@@ -121,7 +121,7 @@ export const getFormControlField = (
  * @param rootForm
  * @param control
  */
-export const getFormGroupField = (
+export const getFormGroupFieldName = (
   rootForm: FormGroup,
   control: AbstractControl
 ): string => {

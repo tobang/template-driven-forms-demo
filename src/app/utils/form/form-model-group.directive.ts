@@ -7,11 +7,13 @@ import {
 } from '@angular/forms';
 
 import { FormDirective } from './form.directive';
-import { getFormGroupField } from './form.utils';
+import { getFormGroupFieldName } from './form.utils';
 import { isSuite } from './models';
 import { createZodValidator } from './zod';
 import { createVestValidator } from './vest';
 
+// This directive's selector targets the Angular Template Driven ngModelGroup directive and extends it
+// with validation features by implementing Angulars Validator interface.
 @Directive({
   selector: '[ngModelGroup]',
   standalone: true,
@@ -31,18 +33,18 @@ export class FormModelGroupDirective implements Validator {
     if (!schema || !model) {
       throw new Error('Validation schema or model is missing');
     }
-    const field = getFormGroupField(ngForm.control, control);
+    const fieldName = getFormGroupFieldName(ngForm.control, control);
 
     if (isSuite(schema)) {
       const validatorFn = createVestValidator(
-        field,
+        fieldName,
         this.formDirective.model,
         schema
       );
       return validatorFn(control);
     } else {
       const validatorFn = createZodValidator(
-        field,
+        fieldName,
         this.formDirective.model,
         schema
       );
