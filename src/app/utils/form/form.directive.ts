@@ -36,6 +36,8 @@ export class FormDirective<T> {
   );
 
   constructor() {
+    // Get notified when the ngSubmit event fires, so we can
+    // mark all controls as touched to show any errors.
     this.ngForm.ngSubmit.pipe(takeUntilDestroyed()).subscribe(() => {
       this.ngForm.form.markAllAsTouched();
     });

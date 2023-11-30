@@ -1,100 +1,135 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
 
-function getControlPath(
-  rootForm: FormGroup,
-  controlName: string,
-  control: AbstractControl
-): string {
-  for (const key in rootForm.controls) {
-    if (rootForm.controls.hasOwnProperty(key)) {
-      const ctrl = rootForm.get(key);
-      if (ctrl instanceof FormGroup) {
-        const path = getControlPath(ctrl, controlName, control);
-        if (path) {
-          return key + '.' + path;
-        }
-      } else if (ctrl === control) {
-        return key;
-      }
-    }
-  }
-  return '';
-}
-
-function getGroupPath(
-  formGroup: FormGroup,
-  controlName: string,
-  control: AbstractControl
-): string {
-  for (const key in formGroup.controls) {
-    if (formGroup.controls.hasOwnProperty(key)) {
-      const ctrl = formGroup.get(key);
-      if (ctrl === control) {
-        return key;
-      }
-      if (ctrl instanceof FormGroup) {
-        const path = getGroupPath(ctrl, controlName, control);
-        if (path) {
-          return key + '.' + path;
-        }
-      }
-    }
-  }
-  return '';
-}
-
 /**
- * Calculates the name of an abstract control in a form group
- * @param formGroup
+ * Returns the name of the control
  * @param control
  */
-function findControlNameInGroup(
-  formGroup:
-    | { [key: string]: AbstractControl<any, any> }
-    | AbstractControl<any, any>[],
-  control: AbstractControl
-): string {
-  return (
-    Object.keys(formGroup).find(
-      (name: string) => control === control.parent?.get(name)
-    ) || ''
-  );
-}
+export const getControlName = (
+  control: AbstractControl | null
+): string | undefined => {
+  return control
+    ? Object.entries(control.parent?.controls ?? []).find(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ([_, value]) => value === control
+      )?.[0] ?? undefined
+    : undefined;
+};
 
 /**
- * Calculates the field name of a form control: Eg: addresses.shippingAddress.street
+ * Returns an array of all possible control paths
+ * ['firstName', 'addresses.homeAddress.street'] etc..
+ * @param rootForm
+ */
+export const getAbstractControlPaths = (rootForm: FormGroup, c = '') => {
+  return Object.keys(rootForm.controls)
+    .map((key) => ({ control: rootForm.controls[key], key }))
+    .reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (acc: string[], curr): any =>
+        curr.control instanceof FormGroup
+          ? [
+              ...(acc as string[]),
+              ...getAbstractControlPaths(curr.control, c + curr.key + '.'),
+            ]
+          : [...acc, c + curr.key],
+      []
+    );
+};
+
+/**
+ * Returns the field name/path of a form control
+ * Eg: addresses.workAddress.street
+ * @param  rootForm
+ * @param  controlName
+ * @param  parentName
+ */
+export const getAbstractControlPath = (
+  rootForm: FormGroup,
+  controlName: string,
+  parentName?: string
+): string => {
+  return (
+    getAbstractControlPaths(rootForm).find((path) =>
+      path.includes(parentName ? `${parentName}.${controlName}` : controlName)
+    ) ?? ''
+  );
+};
+
+/**
+ * Return the name/path of a form group: Eg: addresses.workAddress
+ * @param rootGroup
+ * @param group
+ */
+export const getGroupPath = (
+  rootGroup: FormGroup,
+  group: AbstractControl
+): string =>
+  // Recursively loop the controls of the form to find the path of the group
+  Object.keys(rootGroup.controls).reduce((acc, key) => {
+    const ctrl = rootGroup.get(key);
+    // If we have a value the group path has been found
+    if (acc.length > 0) return acc;
+    // If the current group has the property the key
+    if (rootGroup.controls.hasOwnProperty(key)) {
+      // If the ctrl equals the group we can just return the key
+      // as we have found the right group
+      if (ctrl === group) {
+        return key;
+      } else {
+        // If the ctrl is a FormGroup we will need to call
+        // ourself recursively
+        if (ctrl instanceof FormGroup) {
+          const path = getGroupPath(ctrl, group);
+          if (path) {
+            return key + '.' + path;
+          }
+        }
+      }
+    }
+    return '';
+  }, '');
+
+/**
+ * Calculates the field name/path of a form control: Eg: addresses.workAddress.street
  * @param rootForm
  * @param control
  */
-export function getFormControlField(
+export const getFormControlField = (
   rootForm: FormGroup,
   control: AbstractControl
-): string {
+): string => {
   const parentFormGroup = control.parent?.controls;
   if (!parentFormGroup) {
     throw new Error(
       'An ngModel should always be wrapped in a parent FormGroup'
     );
   }
-  const abstractControlName = findControlNameInGroup(parentFormGroup, control);
-  return getControlPath(rootForm, abstractControlName, control);
-}
+
+  const controlName = getControlName(control) as string;
+  const parentName = getControlName(control.parent);
+
+  const abstractControlPath = getAbstractControlPath(
+    rootForm,
+    controlName,
+    parentName
+  );
+  return abstractControlPath;
+};
 
 /**
- * Calcuates the field name of a form group Eg: addresses.shippingAddress
+ * Calcuates the field name/path of a form group Eg: addresses.workAddress
  * @param rootForm
  * @param control
  */
-export function getFormGroupField(
+export const getFormGroupField = (
   rootForm: FormGroup,
   control: AbstractControl
-): string {
+): string => {
   const parentFormGroup = control.parent?.controls;
   if (!parentFormGroup) {
     throw new Error(
       'An ngModelGroup should always be wrapped in a parent FormGroup'
     );
   }
-  const abstractControlName = findControlNameInGroup(parentFormGroup, control);
-  return getGroupPath(rootForm, abstractControlName, control);
-}
+  return getGroupPath(rootForm, control);
+};
