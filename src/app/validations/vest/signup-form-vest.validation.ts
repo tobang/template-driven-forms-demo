@@ -2,13 +2,13 @@ import { create, enforce, omitWhen, only, test } from 'vest';
 
 import { addressValidations } from './address.validation';
 import { SignupModel } from '../../models/signup.model';
+// Strong typing
+export type FieldName = keyof SignupModel;
+export type GroupName = 'addresses';
+export type Callback = (data: SignupModel, field: string) => void;
+
 
 export const createSignupValidationSuite = () => {
-  // Strong typing
-  /*  type FieldName = keyof ContactModel;
-  type GroupName = 'addresses';
-  type Callback = (data: ContactModel, field: string) => void; */
-
   return create((model: SignupModel, field: string) => {
     only(field);
 
