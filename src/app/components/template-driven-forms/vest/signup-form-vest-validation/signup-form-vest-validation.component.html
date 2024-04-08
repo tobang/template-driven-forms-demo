@@ -2,7 +2,7 @@
   <h2>Signup form - with Vest validation</h2>
   <form
     [model]="formValue()"
-    [suite]="signupSchema"
+    [suite]="signupSuite"
     (formValueChange)="setFormValue($event)"
     (ngSubmit)="onSubmit()"
   >

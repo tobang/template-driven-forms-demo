@@ -16,7 +16,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { SignupModel } from '../../../../models/signup.model';
 
-import { FormDirective } from '../../../../utils/form/form.directive';
+import {
+  FormDirective,
+  FormValueUpdate,
+} from '../../../../utils/form/form.directive';
 
 import {
   templateDrivenForms,
@@ -25,7 +28,6 @@ import {
 import { AddressVestValidationComponent } from './address/address-vest-validation.component';
 import { createSignupValidationSuite } from '../../../../validations/vest';
 import { PhoneNumbersVestValidationComponent } from './phone-numbers/phone-numbers-vest-validation.component';
-import { notNullOrUndefined } from 'src/app/utils/general/not-null-undefined';
 
 @Component({
   selector: 'app-signup-form-vest-validation',
@@ -48,19 +50,14 @@ import { notNullOrUndefined } from 'src/app/utils/general/not-null-undefined';
 export class SignupFormVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
 
-  protected signupSchema = createSignupValidationSuite();
+  protected signupSuite = createSignupValidationSuite();
   protected readonly formValue = signal<SignupModel>({});
   protected readonly viewModel = computed(() => {
     return { form: this.formValue() };
   });
 
-  protected setFormValue(v: {
-    formValue: SignupModel;
-    key: string | undefined;
-  }): void {
-    if (notNullOrUndefined(v.formValue)) {
-      this.formValue.set(v.formValue);
-    }
+  protected setFormValue(v: FormValueUpdate<SignupModel>): void {
+    this.formValue.set(v.formValue);
   }
 
   onSubmit() {

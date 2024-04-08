@@ -1,42 +1,40 @@
-import { create, enforce, omitWhen, only, staticSuite, test } from 'vest';
+import { enforce, omitWhen, only, staticSuite, test } from 'vest';
 
 import { addressValidations } from './address.validation';
 import { SignupModel } from '../../models/signup.model';
 import { phonenumberValidations } from './phone-number.validation';
 // Strong typing
-export type FieldName = keyof SignupModel;
-export type GroupName = 'addresses';
-export type Callback = (data: SignupModel, field: string) => void;
+export type FieldNames = keyof SignupModel;
 
 export const createSignupValidationSuite = () => {
   return staticSuite((model: SignupModel, field: string) => {
     only(field);
 
-    test<FieldName>('firstName', 'First name is required', () => {
+    test<FieldNames>('firstName', 'First name is required', () => {
       enforce(model.firstName).isNotBlank();
     });
 
-    test<FieldName>('lastName', 'Last name is required', () => {
+    test<FieldNames>('lastName', 'Last name is required', () => {
       enforce(model.lastName).isNotBlank();
     });
 
-    test<FieldName>('age', 'Age is required', () => {
+    test<FieldNames>('age', 'Age is required', () => {
       enforce(model.age).isNotBlank();
     });
 
-    test<FieldName>('age', 'Age must be a number', () => {
+    test<FieldNames>('age', 'Age must be a number', () => {
       enforce(model.age).isNumeric();
     });
 
-    test<FieldName>('age', 'You must be 10 years old', () => {
+    test<FieldNames>('age', 'You must be 10 years old', () => {
       enforce(model.age).greaterThan(9);
     });
 
     omitWhen((model.age ?? 0) > 17 || (model.age ?? 0) < 10, () => {
-      test<FieldName>('parentEmail', 'Parent email is required', () => {
+      test<FieldNames>('parentEmail', 'Parent email is required', () => {
         enforce(model.parentEmail).isNotBlank();
       });
-      test<FieldName>('parentEmail', 'Email address must be valid', () => {
+      test<FieldNames>('parentEmail', 'Email address must be valid', () => {
         enforce(model.parentEmail).matches(
           /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         );
