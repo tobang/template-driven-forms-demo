@@ -1,6 +1,10 @@
 <div class="container">
   <div validation-wrapper>
-    <label for="street">Street</label>
+    <label for="country">Country</label>
+    <p-dropdown [options]="zipCodes" [ngModel]="address?.country" optionLabel="Country" name="country" [showClear]="true" placeholder="Select a Country"></p-dropdown>
+  </div>
+  <div validation-wrapper>
+      <label for="street">Street</label>
     <input
       type="text"
       pInputText

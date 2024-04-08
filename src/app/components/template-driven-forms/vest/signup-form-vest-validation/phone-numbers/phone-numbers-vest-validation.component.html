@@ -1,0 +1,39 @@
+<div class="phone-numbers">
+  <div ngModelGroup="values" class="phone-number-values">
+    <div
+      validation-wrapper
+      *ngFor="let item of phoneNumbers | keyvalue; trackBy: tracker"
+    >
+      <div class="input-with-button">
+        <input
+          type="text"
+          pInputText
+          name="{{ item.key }}"
+          [ngModel]="phoneNumbers[item.key]"
+        />
+        <button
+          type="button"
+          pButton
+          class="p-button-danger"
+          (click)="removePhoneNumber(item.key)"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div validation-wrapper>
+    <div class="add-phone-number">
+      <input #addInput type="text" [(ngModel)]="addValue" pInputText name="addValue" />
+      <button
+        type="button"
+        pButton
+        class="p-button-success"
+        (click)="addPhoneNumber(addInput.value); addInput.value = ''"
+      >
+        Add phonenumber
+      </button>
+    </div>
+  </div>
+</div>

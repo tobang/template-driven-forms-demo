@@ -17,6 +17,7 @@ import {
 } from '../../../../utils/form/template-driven-forms';
 import { AddressVestValidationComponent } from './address/address-vest-validation.component';
 import { createSignupValidationSuite } from '../../../../validations/vest';
+import { PhoneNumbersVestValidationComponent } from './phone-numbers/phone-numbers-vest-validation.component';
 
 @Component({
   selector: 'app-signup-form-vest-validation',
@@ -28,6 +29,7 @@ import { createSignupValidationSuite } from '../../../../validations/vest';
     ButtonModule,
     CheckboxModule,
     AddressVestValidationComponent,
+    PhoneNumbersVestValidationComponent,
     FormDirective,
     templateDrivenForms,
   ],

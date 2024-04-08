@@ -77,6 +77,11 @@
       </ng-container>
     </ng-container>
 
+    <ng-container ngModelGroup="phoneNumbers">
+      <h4 class="phone-number-label">Phone numbers</h4>
+      <app-phone-numbers-vest-validation [phoneNumbers]="form.phoneNumbers?.values || {}"></app-phone-numbers-vest-validation>
+    </ng-container>
+
     <button pButton label="Submit" type="submit"></button>
     <button
       pButton
