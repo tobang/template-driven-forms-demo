@@ -1,4 +1,5 @@
 import { AddressModel } from './address.model';
+import { PhonenumberModel } from './phone-number.model';
 
 export type SignupModel = {
   firstName?: string;
@@ -6,6 +7,7 @@ export type SignupModel = {
   userName?: string;
   age?: number;
   parentEmail?: string;
+  phoneNumbers?: PhonenumberModel;
   addresses?: {
     homeAddress?: AddressModel;
     workAddress?: AddressModel;

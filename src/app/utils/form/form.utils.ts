@@ -133,3 +133,30 @@ export const getFormGroupFieldName = (
   }
   return getGroupPath(rootForm, control);
 };
+
+export const arrayToObject = <T>(arr: T[]): { [key: number]: T } => {
+  return arr.reduce((acc, value, index) => ({ ...acc, [index]: value }), {});
+};
+
+/**
+ * Removes the property with the key passed in
+ * and returns a new object without the property
+ */
+export const removeItem = <T>(
+  items: Record<string, T>,
+  key: string
+): Record<string, T> => {
+  const itemsArray = Object.values(items).filter(
+    (v, index) => index !== Number(key)
+  );
+  return arrayToObject(itemsArray);
+};
+
+/**
+ * Adds the value to the object passed in
+ * and returns a new object with the new value
+ */
+export const addItem = <T>(items: Record<string, T>, value: T) => {
+  const itemsArray = [...Object.values(items), value];
+  return arrayToObject(itemsArray);
+};
