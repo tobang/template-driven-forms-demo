@@ -1,4 +1,4 @@
-# Forms discussion
+# Template driven forms - A new way
 
 This wiki document was made to be the basis on which we can have a discussion on how to develop forms. There is an accompanying Stackblitz that shows different ways of forms development.
 
