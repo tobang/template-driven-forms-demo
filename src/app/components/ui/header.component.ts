@@ -14,10 +14,6 @@ import { MenuItem } from 'primeng/api';
 export class HeaderComponent {
   public menuItems: MenuItem[] = [
     {
-      label: 'No validation',
-      routerLink: 'no-validation',
-    },
-    {
       label: 'Reactive form validation',
       routerLink: 'reactive-form-validation',
     },

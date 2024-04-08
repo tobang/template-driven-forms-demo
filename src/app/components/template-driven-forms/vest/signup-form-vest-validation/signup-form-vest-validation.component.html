@@ -11,7 +11,7 @@
       <input
       type="text"
       pInputText
-      [ngModel]="vm().form.firstName"
+      [ngModel]="vm.form.firstName"
       name="firstName"
       id="firstName"
     />
@@ -22,7 +22,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="vm().form.lastName"
+        [ngModel]="vm.form.lastName"
         name="lastName"
         id="lastName"
       />
@@ -33,7 +33,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="vm().form.age || 0"
+        [ngModel]="vm.form.age || 0"
         name="age"
         id="age"
       />
@@ -44,21 +44,21 @@
       <input
         type="text"
         pInputText
-        [ngModel]="vm().form.parentEmail"
+        [ngModel]="vm.form.parentEmail"
         name="parentEmail"
         id="parentEmail"
-        [disabled]="(vm().form.age ?? 0) > 17 || (vm().form.age ?? 0) < 10"
+        [disabled]="(vm.form.age ?? 0) > 17 || (vm.form.age ?? 0) < 10"
       />
     </div>
 
     <ng-container ngModelGroup="addresses">
       <h4 class="home-label">Home address</h4>
       <ng-container ngModelGroup="homeAddress">
-        <app-address-vest-validation [address]="vm().form.addresses?.homeAddress"></app-address-vest-validation>
+        <app-address-vest-validation [address]="vm.form.addresses?.homeAddress"></app-address-vest-validation>
       </ng-container>
 
       <p-checkbox
-        [ngModel]="vm().form.addresses?.includeWorkAddress"
+        [ngModel]="vm.form.addresses?.includeWorkAddress"
         [binary]="true"
         name="includeWorkAddress"
         inputId="workAddress"
@@ -67,11 +67,11 @@
       <label class="include-wa" for="workAddress"
         >Include work address</label
       >
-      <ng-container *ngIf="vm().form.addresses?.includeWorkAddress">
+      <ng-container *ngIf="vm.form.addresses?.includeWorkAddress">
         <h4 class="home-label">Work address</h4>
         <ng-container ngModelGroup="workAddress">
           <app-address-vest-validation
-            [address]="vm().form.addresses?.workAddress"
+            [address]="vm.form.addresses?.workAddress"
           ></app-address-vest-validation>
         </ng-container>
       </ng-container>
@@ -79,7 +79,7 @@
 
     <ng-container ngModelGroup="phoneNumbers">
       <h4 class="phone-number-label">Phone numbers</h4>
-      <app-phone-numbers-vest-validation [phoneNumbers]="vm().form.phoneNumbers?.values || {}"></app-phone-numbers-vest-validation>
+      <app-phone-numbers-vest-validation [phoneNumbers]="vm.form.phoneNumbers?.values || {}"></app-phone-numbers-vest-validation>
     </ng-container>
 
     <button pButton label="Submit" type="submit"></button>
@@ -98,7 +98,7 @@
       (click)="showForm()"
     ></button>
     <pre>
-    {{ vm().form | json }}
+    {{ vm.form | json }}
   </pre
     >
   </div>

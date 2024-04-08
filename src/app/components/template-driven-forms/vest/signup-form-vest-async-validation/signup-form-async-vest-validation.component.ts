@@ -46,8 +46,8 @@ export class SignupFormAsyncVestValidationComponent {
     this.constactService
   );
 
-  setFormValue(value: SignupModel) {
-    this.form$.next(value);
+  setFormValue(value: { formValue: SignupModel; key: string | undefined }) {
+    this.form$.next(value.formValue);
   }
 
   onSubmit() {

@@ -25,6 +25,7 @@ import {
 import { AddressVestValidationComponent } from './address/address-vest-validation.component';
 import { createSignupValidationSuite } from '../../../../validations/vest';
 import { PhoneNumbersVestValidationComponent } from './phone-numbers/phone-numbers-vest-validation.component';
+import { notNullOrUndefined } from 'src/app/utils/general/not-null-undefined';
 
 @Component({
   selector: 'app-signup-form-vest-validation',
@@ -49,20 +50,27 @@ export class SignupFormVestValidationComponent {
 
   protected signupSchema = createSignupValidationSuite();
   protected readonly formValue = signal<SignupModel>({});
-  protected readonly vm = computed(() => {
+  protected readonly viewModel = computed(() => {
     return { form: this.formValue() };
   });
 
-  constructor() {}
-
-  protected setFormValue(v: SignupModel): void {
-    this.formValue.set(v);
+  protected setFormValue(v: {
+    formValue: SignupModel;
+    key: string | undefined;
+  }): void {
+    if (notNullOrUndefined(v.formValue)) {
+      this.formValue.set(v.formValue);
+    }
   }
 
   onSubmit() {
     if (this.ngForm?.valid) {
       console.log(this.formValue());
     }
+  }
+
+  protected get vm() {
+    return this.viewModel();
   }
 
   showForm() {

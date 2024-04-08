@@ -6,11 +6,13 @@ import {
   Subject,
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   pairwise,
   takeUntil,
 } from 'rxjs';
 import { StaticSuite } from 'vest';
+import { notNullOrUndefined } from '../general/not-null-undefined';
 
 // This directive's selector targets form elments that have a model and a suite property
 @Directive({
@@ -35,9 +37,18 @@ export class FormDirective<T> implements OnDestroy {
    * This Output will emit the raw value of the form and the
    *  key name that caused the valueChanges to emit
    */
-  @Output() formValueChange: Observable<T> = this.ngForm.form.valueChanges.pipe(
+  @Output() formValueChange: Observable<{
+    formValue: T;
+    key: string | undefined;
+  }> = this.ngForm.form.valueChanges.pipe(
     debounceTime(0),
-    map(() => this.ngForm.form.getRawValue())
+    pairwise(),
+    map(([oldValues, newValues]) => {
+      return {
+        formValue: this.ngForm.form.getRawValue(),
+        key: Object.keys(newValues).find((k) => newValues[k] != oldValues[k]),
+      };
+    })
   );
 
   @Input() public model!: T;

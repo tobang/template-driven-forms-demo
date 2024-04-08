@@ -1,8 +1,9 @@
-.add-phone-number {
-    display: flex;
-  gap: 40px
+.add-phone-number, .remove-phone-number {
+  display: flex;
+  gap: 40px;
+  margin-top: 10px;
 }
 .input-with-button {
   display: flex;
-  gap: 40px
+  gap: 40px;
 }

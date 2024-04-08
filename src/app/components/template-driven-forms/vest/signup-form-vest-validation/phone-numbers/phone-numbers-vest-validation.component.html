@@ -1,6 +1,7 @@
 <div class="phone-numbers">
   <div ngModelGroup="values" class="phone-number-values">
     <div
+     class="remove-phone-number"
       validation-wrapper
       *ngFor="let item of phoneNumbers | keyvalue; trackBy: tracker"
     >
