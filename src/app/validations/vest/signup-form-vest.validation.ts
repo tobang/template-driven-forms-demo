@@ -1,4 +1,4 @@
-import { create, enforce, omitWhen, only, test } from 'vest';
+import { create, enforce, omitWhen, only, staticSuite, test } from 'vest';
 
 import { addressValidations } from './address.validation';
 import { SignupModel } from '../../models/signup.model';
@@ -9,7 +9,7 @@ export type GroupName = 'addresses';
 export type Callback = (data: SignupModel, field: string) => void;
 
 export const createSignupValidationSuite = () => {
-  return create((model: SignupModel, field: string) => {
+  return staticSuite((model: SignupModel, field: string) => {
     only(field);
 
     test<FieldName>('firstName', 'First name is required', () => {

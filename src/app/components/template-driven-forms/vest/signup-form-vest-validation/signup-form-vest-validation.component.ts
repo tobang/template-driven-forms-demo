@@ -1,4 +1,11 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -39,19 +46,22 @@ import { PhoneNumbersVestValidationComponent } from './phone-numbers/phone-numbe
 })
 export class SignupFormVestValidationComponent {
   @ViewChild(NgForm) ngForm: NgForm | undefined;
-  public form$: BehaviorSubject<SignupModel> = new BehaviorSubject<SignupModel>(
-    {}
-  );
 
   protected signupSchema = createSignupValidationSuite();
+  protected readonly formValue = signal<SignupModel>({});
+  protected readonly vm = computed(() => {
+    return { form: this.formValue() };
+  });
 
-  setFormValue(value: SignupModel) {
-    this.form$.next(value);
+  constructor() {}
+
+  protected setFormValue(v: SignupModel): void {
+    this.formValue.set(v);
   }
 
   onSubmit() {
     if (this.ngForm?.valid) {
-      console.log(this.form$.value);
+      console.log(this.formValue());
     }
   }
 

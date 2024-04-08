@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/directive-selector */
 import { Directive, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -8,8 +9,6 @@ import {
 
 import { FormDirective } from './form.directive';
 import { getFormGroupFieldName } from './form.utils';
-import { isSuite } from './models';
-import { createZodValidator } from './zod';
 import { createVestValidator } from './vest';
 
 // This directive's selector targets the Angular Template Driven ngModelGroup directive and extends it
@@ -29,26 +28,17 @@ export class FormModelGroupDirective implements Validator {
   private readonly formDirective = inject(FormDirective);
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    const { ngForm, schema, model } = this.formDirective;
-    if (!schema || !model) {
-      throw new Error('Validation schema or model is missing');
+    const { ngForm, suite, model } = this.formDirective;
+    if (!suite || !model) {
+      throw new Error('Validation suite or model is missing');
     }
     const fieldName = getFormGroupFieldName(ngForm.control, control);
 
-    if (isSuite(schema)) {
-      const validatorFn = createVestValidator(
-        fieldName,
-        this.formDirective.model,
-        schema
-      );
-      return validatorFn(control);
-    } else {
-      const validatorFn = createZodValidator(
-        fieldName,
-        this.formDirective.model,
-        schema
-      );
-      return validatorFn(control);
-    }
+    const validatorFn = createVestValidator(
+      fieldName,
+      this.formDirective.model,
+      suite
+    );
+    return validatorFn(control);
   }
 }

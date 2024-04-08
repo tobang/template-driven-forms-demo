@@ -28,7 +28,7 @@ export const getAbstractControlPaths = (rootForm: FormGroup, c = '') => {
       (acc: string[], curr): any =>
         curr.control instanceof FormGroup
           ? [
-              ...(acc as string[]),
+              ...acc,
               ...getAbstractControlPaths(curr.control, c + curr.key + '.'),
             ]
           : [...acc, c + curr.key],
@@ -70,7 +70,7 @@ export const getGroupPath = (
     // If we have a value the group path has been found
     if (acc.length > 0) return acc;
     // If the current group has the property the key
-    if (rootGroup.controls.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(rootGroup.controls, key)) {
       // If the ctrl equals the group we can just return the key
       // as we have found the right group
       if (ctrl === group) {

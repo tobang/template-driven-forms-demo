@@ -1,7 +1,8 @@
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
-import { set } from 'radash';
+
 import { Observable } from 'rxjs';
-import { Suite, SuiteResult } from 'vest';
+import { StaticSuite, SuiteResult } from 'vest';
+import { set } from '../../general/object';
 
 /**
  * Creates an Angular ValidatorFn that uses a Vest suite behind the scenes
@@ -32,11 +33,11 @@ export function createVestValidator<T>(
 export function createAsyncVestValidator<T>(
   field: string,
   model: T,
-  suite: Suite<string, string, (model: T, field: string) => void>
+  suite: StaticSuite<string, string, (model: T, field: string) => void>
 ): AsyncValidatorFn {
   return (control: AbstractControl) => {
     const mod = structuredClone(model);
-    const modUpdated = set(mod as object, field, control.value) as T;
+    const modUpdated = set(mod as object, field, control.getRawValue()) as T;
     return new Observable((observer) => {
       suite(modUpdated, field).done((result) => {
         const errors = result.getErrors()[field];

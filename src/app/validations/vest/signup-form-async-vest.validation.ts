@@ -1,4 +1,4 @@
-import { create, enforce, omitWhen, only, test } from 'vest';
+import { create, enforce, omitWhen, only, staticSuite, test } from 'vest';
 
 import { addressValidations } from './address.validation';
 import { SignupModel } from '../../models/signup.model';
@@ -8,7 +8,7 @@ import { fromEvent, lastValueFrom, takeUntil } from 'rxjs';
 export const createSignupAsyncValidationSuite = (
   contactService: SignupService
 ) => {
-  return create((model: SignupModel, field: string) => {
+  return staticSuite((model: SignupModel, field: string) => {
     only(field);
 
     test('firstName', 'First name is required', () => {
